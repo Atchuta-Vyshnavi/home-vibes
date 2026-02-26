@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chop-Chow — Order Confirmed</title>
+<style>
+:root {
+  --accent1: #ff6f61;
+  --accent2: #ffcc70;
+  --panel-bg: rgba(255,255,255,0.95);
+  --muted: #555;
+}
+html,body {
+  height: 100%;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, var(--accent1), var(--accent2));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Card */
+.card {
+  background: var(--panel-bg);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
+  animation: fadeIn 0.8s ease;
+}
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(30px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+@keyframes fadeOut {
+  from {opacity: 1; transform: scale(1);}
+  to {opacity: 0; transform: scale(0.9);}
+}
+
+.tick {
+  font-size: 70px;
+  color: var(--accent1);
+  animation: pop 0.6s ease;
+}
+@keyframes pop {
+  0% {transform: scale(0);}
+  70% {transform: scale(1.2);}
+  100% {transform: scale(1);}
+}
+
+h2 {
+  color: var(--accent1);
+  margin: 15px 0 5px;
+}
+p {
+  color: var(--muted);
+  margin: 3px 0;
+}
+img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-top: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+hr {
+  border: none;
+  height: 1px;
+  background: #ddd;
+  margin: 15px 0;
+}
+.total {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--accent1);
+  margin-top: 8px;
+}
+button {
+  background: var(--accent1);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 15px;
+  transition: 0.3s;
+}
+button:hover {
+  background: #e05b50;
+}
+.note {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+</style>
+</head>
+<body>
+
+<div class="card" id="card">
+  <div class="tick">✅</div>
+  <h2>Order Successful!</h2>
+  <p>Thank you for your purchase.</p>
+  <hr>
+  <img id="dishImg" src="" alt="Dish Image">
+  <h3 id="dishTitle"></h3>
+  <p>Price: ₹<span id="dishPrice"></span></p>
+  <p>Quantity: <span id="dishQty"></span></p>
+  <div class="total">Total: ₹<span id="dishTotal"></span></div>
+  <button onclick="goHome()">Back to Home</button>
+  <div class="note">Redirecting to home in <span id="timer">5</span> seconds...</div>
+</div>
+
+<script>
+const order = JSON.parse(localStorage.getItem("order") || "[]");
+if(order.length){
+  const item = order[0];
+  document.getElementById("dishImg").src = item.img;
+  document.getElementById("dishTitle").textContent = item.title;
+  document.getElementById("dishPrice").textContent = item.price;
+  document.getElementById("dishQty").textContent = item.qty;
+  document.getElementById("dishTotal").textContent = item.price * item.qty;
+} else {
+  document.body.innerHTML = "<h2 style='color:white;text-align:center;'>No order found.</h2>";
+}
+
+function goHome(){
+  document.getElementById("card").style.animation = "fadeOut 0.6s forwards";
+  setTimeout(() => window.location.href = "home.html", 600);
+}
+
+// auto redirect countdown
+let timeLeft = 5;
+const timer = document.getElementById("timer");
+const countdown = setInterval(()=>{
+  timeLeft--;
+  timer.textContent = timeLeft;
+  if(timeLeft <= 0){
+    clearInterval(countdown);
+    goHome();
+  }
+},1000);
+</script>
+
+</body>
+</html>

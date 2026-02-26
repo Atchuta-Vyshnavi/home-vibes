@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Home Vibes— Watch</title>
+<style>
+:root{
+  --accent1:#ff6f61;
+  --accent2:#ffcc70;
+  --panel-bg: rgba(255,255,255,0.96);
+  --muted:#555;
+}
+html,body{
+  height:100%; margin:0;
+  background: linear-gradient(135deg,var(--accent1),var(--accent2));
+  font-family:"Poppins",sans-serif;
+}
+
+/* Navbar */
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 24px;
+  background: linear-gradient(135deg,var(--accent1),var(--accent2));
+  color:white;
+}
+.navbar h1{
+  margin:0;
+  font-size:24px;
+  letter-spacing:1px;
+}
+.navbar .menu{
+  display:flex;
+  gap:20px;
+  align-items:center;
+}
+.navbar .menu div{
+  cursor:pointer;
+  font-weight:500;
+}
+.navbar .menu div:hover{
+  text-decoration:underline;
+}
+
+/* Video & Details */
+.video-container{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:30px;
+}
+video{
+  width:80%;
+  max-width:800px;
+  border-radius:12px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.25);
+  margin-bottom:15px;
+}
+.details{
+  background: var(--panel-bg);
+  border-radius:12px;
+  padding:20px;
+  width:80%;
+  max-width:800px;
+  text-align:center;
+  box-shadow:0 4px 20px rgba(0,0,0,0.15);
+}
+.details h2{
+  margin-top:0;
+  color:var(--accent1);
+}
+.details p{
+  margin:5px 0;
+  color:var(--muted);
+}
+.quantity{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  margin-top:10px;
+}
+.quantity input{
+  width:50px;
+  text-align:center;
+  padding:5px;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+button{
+  background: var(--accent1);
+  color:white;
+  border:none;
+  padding:10px 20px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+  margin:10px 8px;
+  transition:0.3s;
+}
+button:hover{
+  background:#e05b50;
+}
+.total{
+  font-size:18px;
+  font-weight:600;
+  color:var(--accent1);
+  margin-top:10px;
+}
+</style>
+</head>
+<body>
+  <div class="navbar">
+    <h1>🍴 Home Vibes</h1>
+    <div class="menu">
+      <div onclick="goHome()">Home</div>
+      <div onclick="goCart()">Cart 🛒</div>
+    </div>
+  </div>
+
+  <div class="video-container">
+    <video id="videoPlayer" controls autoplay></video>
+    <div class="details">
+      <h2 id="videoTitle"></h2>
+      <p>Description: <span id="videoDesc">--</span></p>
+      <p>Cost per dish: ₹<span id="videoCost">--</span></p>
+      <div class="quantity">
+        <label>Quantity:</label>
+        <button onclick="changeQty(-1)">−</button>
+        <input type="number" id="qty" min="1" value="1" readonly>
+        <button onclick="changeQty(1)">+</button>
+      </div>
+      <div class="total">Total: ₹<span id="totalCost">--</span></div>
+      <div>
+        <button onclick="addToCart()">Add to Cart</button>
+        <button onclick="buyNow()">Buy Now</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const src = params.get("src");
+const title = params.get("title");
+document.getElementById("videoPlayer").src = src;
+document.getElementById("videoTitle").textContent = title;
+
+const dishInfo = {
+  "Chocolate Milkshake": { cost:180, desc:"Super thick shake tasty feel", thumb:"thumbnails/chocolatemilkshake.jpg" },
+  "Chicken Biryani": { cost:240, desc:"Restaurant biryani at home", thumb:"thumbnails/chickenbiryani.jpg" },
+  "Chicken Manchuriya": { cost:396, desc:"Fresh chicken manchuriya", thumb:"thumbnails/chickenmanchuriya.jpg" },
+  "Egg Fried Rice": { cost:60, desc:"Tasty and full of protein", thumb:"thumbnails/eggfriedrice.jpg" },
+  "Fried Veg Momos": { cost:189, desc:"Yummy fried momos", thumb:"thumbnails/friedmomos.jpg" },
+  "Paneer Butter Masala": { cost:130, desc:"Try with your own and see", thumb:"thumbnails/pannerbuttermasala.jpg" },
+  "Paneer Tikka": { cost:70, desc:"Healthy healthy paneer", thumb:"thumbnails/pannertikka.jpg" },
+  "Cheese Pizza": { cost:299, desc:"Overloaded extra cheese", thumb:"thumbnails/chesesepizza.jpg" },
+  "Street Maggie": { cost:50, desc:"Ready in 2 minutes", thumb:"thumbnails/strretmaggie.jpg" },
+  "Veg Noodles": { cost:99, desc:"Delicious noodles", thumb:"thumbnails/vegnoodles.jpg" },
+  "Tandoor Roti": { cost:156, desc:"Street style roti at home", thumb:"thumbnails/tandooriroti.jpg" }
+};
+
+const dish = dishInfo[title];
+if(dish){
+  document.getElementById("videoCost").textContent = dish.cost;
+  document.getElementById("videoDesc").textContent = dish.desc;
+  updateTotal();
+}
+
+function changeQty(change){
+  const qtyInput = document.getElementById("qty");
+  let qty = parseInt(qtyInput.value);
+  qty = Math.max(1, qty + change);
+  qtyInput.value = qty;
+  updateTotal();
+}
+
+function updateTotal(){
+  const qty = parseInt(document.getElementById("qty").value);
+  const cost = dish?.cost || 0;
+  document.getElementById("totalCost").textContent = qty * cost;
+}
+
+function addToCart(){
+  const qty = parseInt(document.getElementById("qty").value);
+  if(!dish) return alert("Dish not found!");
+
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  const existing = cart.find(item => item.title === title);
+  if(existing) existing.qty += qty;
+  else cart.push({ title, price:dish.cost, qty, thumb:dish.thumb });
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert(`${title} added to cart successfully!`);
+}
+
+function buyNow(){
+  const qty = parseInt(document.getElementById("qty").value);
+  if(!dish) return alert("Dish not found!");
+
+  // Prepare the order details
+  const order = [{
+    title: title,
+    price: dish.cost,
+    qty: qty,
+    img: dish.thumb
+  }];
+
+  // Save it in localStorage for buynow.html to access
+  localStorage.setItem("order", JSON.stringify(order));
+
+  // Go to the buy now confirmation page
+  window.location.href = "buynow.html";
+}
+
+
+function goHome(){
+  window.location.href = "home.html";
+}
+function goCart(){
+  window.location.href = "cart.html";
+}
+</script>
+</body>
+</html>
