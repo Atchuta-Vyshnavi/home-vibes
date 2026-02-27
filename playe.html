@@ -1,431 +1,9 @@
-<!-- <!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Home Vibes— Watch</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --accent1:#ff6f61;
-  --accent2:#ffcc70;
-  --panel-bg: rgba(255,255,255,0.96);
-  --muted:#555;
-}
-html,body{
-  height:100%; margin:0;
-  background: linear-gradient(135deg,var(--accent1),var(--accent2));
-  font-family:"Poppins",sans-serif;
-}
-
-/* Navbar */
-.navbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px 24px;
-  background: linear-gradient(135deg,var(--accent1),var(--accent2));
-  color:white;
-}
-.navbar h1{
-  margin:0;
-  font-size:24px;
-  letter-spacing:1px;
-}
-.navbar .menu{
-  display:flex;
-  gap:20px;
-  align-items:center;
-}
-.navbar .menu div{
-  cursor:pointer;
-  font-weight:500;
-}
-.navbar .menu div:hover{
-  text-decoration:underline;
-}
-
-/* Video & Details */
-.video-container{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:30px;
-}
-video{
-  width:80%;
-  max-width:800px;
-  border-radius:12px;
-  box-shadow:0 4px 20px rgba(0,0,0,0.25);
-  margin-bottom:15px;
-}
-.details{
-  background: var(--panel-bg);
-  border-radius:12px;
-  padding:24px;
-  width:80%;
-  max-width:800px;
-  text-align:center;
-  box-shadow:0 4px 20px rgba(0,0,0,0.15);
-}
-.details h2{
-  margin-top:0;
-  color:var(--accent1);
-}
-.details .desc{
-  color: var(--muted);
-  margin-bottom: 18px;
-  font-size: 15px;
-}
-
-/* Ingredients Section */
-.ingredients-title {
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--accent1);
-  margin-bottom: 14px;
-  text-align: left;
-  border-bottom: 2px solid var(--accent2);
-  padding-bottom: 6px;
-}
-
-.ingredients-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  text-align: left;
-}
-
-.ingredient-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #fff7f0;
-  border: 1px solid #ffe0d0;
-  border-radius: 10px;
-  padding: 10px 14px;
-  gap: 10px;
-}
-
-.ingredient-name {
-  flex: 1;
-  font-weight: 500;
-  color: #333;
-  font-size: 14px;
-}
-
-.ingredient-unit {
-  color: var(--muted);
-  font-size: 13px;
-  min-width: 60px;
-  text-align: center;
-}
-
-.qty-control {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.qty-control button {
-  background: var(--accent1);
-  color: white;
-  border: none;
-  width: 30px;
-  height: 30px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 1;
-  padding: 0;
-  margin: 0;
-  transition: background 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.qty-control button:hover {
-  background: #e05b50;
-}
-.qty-control .qty-value {
-  min-width: 36px;
-  text-align: center;
-  font-weight: 600;
-  font-size: 15px;
-  color: #333;
-}
-
-/* Action buttons */
-.action-buttons {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-}
-
-button.main-btn {
-  background: var(--accent1);
-  color: white;
-  border: none;
-  padding: 10px 24px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 15px;
-  margin: 0;
-  transition: 0.3s;
-}
-button.main-btn:hover {
-  background: #e05b50;
-}
-</style>
-</head>
-<body>
-  <div class="navbar">
-    <h1>🍴 Home Vibes</h1>
-    <div class="menu">
-      <div onclick="goHome()">Home</div>
-      <div onclick="goCart()">Cart 🛒</div>
-    </div>
-  </div>
-
-  <div class="video-container">
-    <video id="videoPlayer" controls autoplay></video>
-    <div class="details">
-      <h2 id="videoTitle"></h2>
-      <p class="desc" id="videoDesc">--</p>
-
-      <div class="ingredients-title">🧂 Ingredients</div>
-      <div class="ingredients-list" id="ingredientsList"></div>
-
-      <div class="action-buttons">
-        <button class="main-btn" onclick="addToCart()">Add to Cart</button>
-        <button class="main-btn" onclick="buyNow()">Buy Now</button>
-      </div>
-    </div>
-  </div>
-
-<script>
-const params = new URLSearchParams(window.location.search);
-const src = params.get("src");
-const title = params.get("title");
-document.getElementById("videoPlayer").src = src;
-document.getElementById("videoTitle").textContent = title;
-
-const dishInfo = {
-  "Chocolate Milkshake": {
-    cost: 180, desc: "Super thick shake tasty feel", thumb: "thumbnails/chocolatemilkshake.jpg",
-    ingredients: [
-      { name: "Full cream milk", unit: "ml", qty: 300 },
-      { name: "Chocolate ice cream", unit: "scoops", qty: 3 },
-      { name: "Cocoa powder", unit: "tbsp", qty: 2 },
-      { name: "Sugar", unit: "tbsp", qty: 1 },
-      { name: "Whipped cream", unit: "tbsp", qty: 2 },
-      { name: "Chocolate sauce", unit: "tbsp", qty: 1 }
-    ]
-  },
-  "Chicken Biryani": {
-    cost: 240, desc: "Restaurant biryani at home", thumb: "thumbnails/chickenbiryani.jpg",
-    ingredients: [
-      { name: "Basmati rice", unit: "cups", qty: 2 },
-      { name: "Chicken pieces", unit: "g", qty: 500 },
-      { name: "Onion (sliced)", unit: "medium", qty: 2 },
-      { name: "Yogurt", unit: "tbsp", qty: 4 },
-      { name: "Biryani masala", unit: "tbsp", qty: 2 },
-      { name: "Ghee", unit: "tbsp", qty: 2 },
-      { name: "Mint leaves", unit: "handful", qty: 1 },
-      { name: "Saffron", unit: "pinch", qty: 1 }
-    ]
-  },
-  "Chicken Manchuriya": {
-    cost: 396, desc: "Fresh chicken manchuriya", thumb: "thumbnails/chickenmanchuriya.jpg",
-    ingredients: [
-      { name: "Boneless chicken", unit: "g", qty: 400 },
-      { name: "Cornflour", unit: "tbsp", qty: 4 },
-      { name: "Soy sauce", unit: "tbsp", qty: 2 },
-      { name: "Garlic (minced)", unit: "cloves", qty: 4 },
-      { name: "Green chilli", unit: "pieces", qty: 2 },
-      { name: "Spring onion", unit: "stalks", qty: 3 },
-      { name: "Tomato ketchup", unit: "tbsp", qty: 2 },
-      { name: "Oil", unit: "tbsp", qty: 3 }
-    ]
-  },
-  "Egg Fried Rice": {
-    cost: 60, desc: "Tasty and full of protein", thumb: "thumbnails/eggfriedrice.jpg",
-    ingredients: [
-      { name: "Cooked rice", unit: "cups", qty: 2 },
-      { name: "Eggs", unit: "pieces", qty: 3 },
-      { name: "Carrot (diced)", unit: "medium", qty: 1 },
-      { name: "Spring onion", unit: "stalks", qty: 2 },
-      { name: "Soy sauce", unit: "tbsp", qty: 2 },
-      { name: "Oil", unit: "tbsp", qty: 2 },
-      { name: "Black pepper", unit: "tsp", qty: 0.5 },
-      { name: "Salt", unit: "tsp", qty: 0.5 }
-    ]
-  },
-  "Fried Veg Momos": {
-    cost: 189, desc: "Yummy fried momos", thumb: "thumbnails/friedmomos.jpg",
-    ingredients: [
-      { name: "All-purpose flour", unit: "cups", qty: 2 },
-      { name: "Cabbage (shredded)", unit: "cups", qty: 1 },
-      { name: "Carrot (grated)", unit: "medium", qty: 1 },
-      { name: "Onion (chopped)", unit: "medium", qty: 1 },
-      { name: "Garlic (minced)", unit: "cloves", qty: 3 },
-      { name: "Soy sauce", unit: "tbsp", qty: 1 },
-      { name: "Oil for frying", unit: "cups", qty: 1 },
-      { name: "Salt", unit: "tsp", qty: 1 }
-    ]
-  },
-  "Paneer Butter Masala": {
-    cost: 130, desc: "Try with your own and see", thumb: "thumbnails/pannerbuttermasala.jpg",
-    ingredients: [
-      { name: "Paneer", unit: "g", qty: 250 },
-      { name: "Tomatoes", unit: "medium", qty: 3 },
-      { name: "Butter", unit: "tbsp", qty: 3 },
-      { name: "Heavy cream", unit: "tbsp", qty: 4 },
-      { name: "Onion (chopped)", unit: "medium", qty: 1 },
-      { name: "Garam masala", unit: "tsp", qty: 1 },
-      { name: "Kashmiri chilli powder", unit: "tsp", qty: 1 },
-      { name: "Cashews", unit: "pieces", qty: 10 }
-    ]
-  },
-  "Paneer Tikka": {
-    cost: 70, desc: "Healthy healthy paneer", thumb: "thumbnails/pannertikka.jpg",
-    ingredients: [
-      { name: "Paneer", unit: "g", qty: 300 },
-      { name: "Thick yogurt", unit: "tbsp", qty: 4 },
-      { name: "Bell pepper (cubed)", unit: "medium", qty: 1 },
-      { name: "Onion (cubed)", unit: "medium", qty: 1 },
-      { name: "Tikka masala", unit: "tbsp", qty: 2 },
-      { name: "Lemon juice", unit: "tbsp", qty: 1 },
-      { name: "Oil", unit: "tbsp", qty: 1 },
-      { name: "Chaat masala", unit: "tsp", qty: 0.5 }
-    ]
-  },
-  "Cheese Pizza": {
-    cost: 299, desc: "Overloaded extra cheese", thumb: "thumbnails/chesesepizza.jpg",
-    ingredients: [
-      { name: "Pizza dough", unit: "g", qty: 300 },
-      { name: "Mozzarella cheese", unit: "g", qty: 200 },
-      { name: "Pizza sauce", unit: "tbsp", qty: 4 },
-      { name: "Cheddar cheese", unit: "g", qty: 50 },
-      { name: "Oregano", unit: "tsp", qty: 1 },
-      { name: "Chilli flakes", unit: "tsp", qty: 0.5 },
-      { name: "Olive oil", unit: "tbsp", qty: 1 }
-    ]
-  },
-  "Street Maggie": {
-    cost: 50, desc: "Ready in 2 minutes", thumb: "thumbnails/strretmaggie.jpg",
-    ingredients: [
-      { name: "Maggie noodles", unit: "packets", qty: 2 },
-      { name: "Water", unit: "cups", qty: 1.5 },
-      { name: "Butter", unit: "tbsp", qty: 1 },
-      { name: "Onion (chopped)", unit: "small", qty: 1 },
-      { name: "Tomato (chopped)", unit: "small", qty: 1 },
-      { name: "Green chilli", unit: "pieces", qty: 1 },
-      { name: "Chaat masala", unit: "tsp", qty: 0.5 }
-    ]
-  },
-  "Veg Noodles": {
-    cost: 99, desc: "Delicious noodles", thumb: "thumbnails/vegnoodles.jpg",
-    ingredients: [
-      { name: "Noodles", unit: "g", qty: 200 },
-      { name: "Cabbage (shredded)", unit: "cups", qty: 1 },
-      { name: "Carrot (julienned)", unit: "medium", qty: 1 },
-      { name: "Bell pepper", unit: "medium", qty: 1 },
-      { name: "Spring onion", unit: "stalks", qty: 2 },
-      { name: "Soy sauce", unit: "tbsp", qty: 2 },
-      { name: "Vinegar", unit: "tsp", qty: 1 },
-      { name: "Oil", unit: "tbsp", qty: 2 }
-    ]
-  },
-  "Tandoor Roti": {
-    cost: 156, desc: "Street style roti at home", thumb: "thumbnails/tandooriroti.jpg",
-    ingredients: [
-      { name: "Wheat flour", unit: "cups", qty: 2 },
-      { name: "Water (lukewarm)", unit: "ml", qty: 150 },
-      { name: "Salt", unit: "tsp", qty: 0.5 },
-      { name: "Butter", unit: "tbsp", qty: 2 },
-      { name: "Baking powder", unit: "tsp", qty: 0.25 },
-      { name: "Yogurt", unit: "tbsp", qty: 1 }
-    ]
-  }
-};
-
-const dish = dishInfo[title];
-
-if (dish) {
-  document.getElementById("videoDesc").textContent = dish.desc;
-  renderIngredients(dish.ingredients);
-}
-
-// Store current quantities
-let currentQtys = dish ? dish.ingredients.map(i => i.qty) : [];
-
-function renderIngredients(ingredients) {
-  const list = document.getElementById("ingredientsList");
-  list.innerHTML = "";
-  ingredients.forEach((ing, idx) => {
-    const row = document.createElement("div");
-    row.className = "ingredient-row";
-    row.innerHTML = `
-      <span class="ingredient-name">${ing.name}</span>
-      <span class="ingredient-unit">${ing.unit}</span>
-      <div class="qty-control">
-        <button onclick="changeIngQty(${idx}, -1)">−</button>
-        <span class="qty-value" id="iqty-${idx}">${formatQty(currentQtys[idx])}</span>
-        <button onclick="changeIngQty(${idx}, 1)">+</button>
-      </div>
-    `;
-    list.appendChild(row);
-  });
-}
-
-function formatQty(val) {
-  // Show decimals only if needed
-  return Number.isInteger(val) ? val : parseFloat(val.toFixed(2));
-}
-
-function changeIngQty(idx, delta) {
-  const ing = dish.ingredients[idx];
-  // Step: for small quantities use 0.25, else 1
-  const step = currentQtys[idx] < 2 ? 0.25 : 1;
-  currentQtys[idx] = Math.max(0.25, currentQtys[idx] + delta * step);
-  document.getElementById(`iqty-${idx}`).textContent = formatQty(currentQtys[idx]);
-}
-
-function addToCart() {
-  if (!dish) return alert("Dish not found!");
-  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-  const existing = cart.find(item => item.title === title);
-  if (existing) existing.qty += 1;
-  else cart.push({ title, price: dish.cost, qty: 1, thumb: dish.thumb });
-  localStorage.setItem("cart", JSON.stringify(cart));
-  alert(`${title} added to cart successfully!`);
-}
-
-function buyNow() {
-  if (!dish) return alert("Dish not found!");
-  const order = [{ title, price: dish.cost, qty: 1, img: dish.thumb }];
-  localStorage.setItem("order", JSON.stringify(order));
-  window.location.href = "buynow.html";
-}
-
-function goHome() { window.location.href = "home.html"; }
-function goCart() { window.location.href = "cart.html"; }
-</script>
-</body>
-</html>
- -->
-
- <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Home Vibes — Watch</title>
+<title>HomeVibes — Watch</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -482,7 +60,7 @@ video{
   border-radius:10px; padding:10px 14px; gap:8px;
 }
 .ingredient-name{ flex:1; font-weight:500; color:#333; font-size:14px; }
-.ingredient-unit{ color:var(--muted); font-size:13px; min-width:50px; text-align:center; }
+.ingredient-unit{ color:#999; font-size:12px; margin-top:2px; }
 .ingredient-cost{ color:var(--accent1); font-size:13px; font-weight:600; min-width:55px; text-align:right; }
 
 .qty-control{ display:flex; align-items:center; gap:8px; }
@@ -536,7 +114,7 @@ button.main-btn:hover{ background:#e05b50; }
 </head>
 <body>
   <div class="navbar">
-    <h1>🍴 Home Vibes</h1>
+    <h1>🍴 HomeVibes</h1>
     <div class="menu">
       <div onclick="goHome()">Home</div>
       <div onclick="goCart()">Cart 🛒</div>
@@ -549,7 +127,7 @@ button.main-btn:hover{ background:#e05b50; }
       <h2 id="videoTitle"></h2>
       <p class="desc" id="videoDesc">--</p>
 
-      <div class="ingredients-title">🧂 Ingredients</div>
+      <div class="ingredients-title"> Ingredients Required For The Dish</div>
       <div class="ingredients-list" id="ingredientsList"></div>
 
       <div class="cost-summary" id="costSummary"></div>
@@ -566,140 +144,138 @@ button.main-btn:hover{ background:#e05b50; }
 <script>
 const dishInfo = {
   "Chocolate Milkshake": {
-    desc:"Super thick shake tasty feel", thumb:"thumbnails/chocolatemilkshake.jpg",
+    desc:"Super Thick Shake Tasty Feel", thumb:"thumbnails/chocolatemilkshake.jpg",
     ingredients:[
-      {name:"Full cream milk",     unit:"ml",      qty:300,  costPerUnit:0.06},
-      {name:"Chocolate ice cream", unit:"scoops",  qty:3,    costPerUnit:25},
-      {name:"Cocoa powder",        unit:"tbsp",    qty:2,    costPerUnit:8},
-      {name:"Sugar",               unit:"tbsp",    qty:1,    costPerUnit:3},
-      {name:"Whipped cream",       unit:"tbsp",    qty:2,    costPerUnit:6},
-      {name:"Chocolate sauce",     unit:"tbsp",    qty:1,    costPerUnit:10}
+      {name:"Full Cream Milk",        unit:"500ml packet",  qty:1,  costPerUnit:28},
+      {name:"Chocolate Ice Cream",    unit:"500ml tub",     qty:1,  costPerUnit:120},
+      {name:"Cocoa Powder",           unit:"50g packet",    qty:1,  costPerUnit:45},
+      {name:"Sugar",                  unit:"1kg packet",    qty:1,  costPerUnit:50},
+      {name:"Whipped Cream",          unit:"250ml can",     qty:1,  costPerUnit:99},
+      {name:"Chocolate Sauce",        unit:"bottle",        qty:1,  costPerUnit:85}
     ]
   },
   "Chicken Biryani": {
-    desc:"Restaurant biryani at home", thumb:"thumbnails/chickenbiryani.jpg",
+    desc:"Restaurant Biryani At Home", thumb:"thumbnails/chickenbiryani.jpg",
     ingredients:[
-      {name:"Basmati rice",        unit:"cups",    qty:2,    costPerUnit:30},
-      {name:"Chicken pieces",      unit:"g",       qty:500,  costPerUnit:0.22},
-      {name:"Onion (sliced)",      unit:"medium",  qty:2,    costPerUnit:8},
-      {name:"Yogurt",              unit:"tbsp",    qty:4,    costPerUnit:4},
-      {name:"Biryani masala",      unit:"tbsp",    qty:2,    costPerUnit:10},
-      {name:"Ghee",                unit:"tbsp",    qty:2,    costPerUnit:12},
-      {name:"Mint leaves",         unit:"handful", qty:1,    costPerUnit:5},
-      {name:"Saffron",             unit:"pinch",   qty:1,    costPerUnit:15}
+      {name:"Basmati Rice",           unit:"1kg packet",    qty:1,  costPerUnit:110},
+      {name:"Chicken",                unit:"500g pack",     qty:1,  costPerUnit:130},
+      {name:"Onion",                  unit:"500g loose",    qty:1,  costPerUnit:25},
+      {name:"Curd / Yogurt",          unit:"400g cup",      qty:1,  costPerUnit:45},
+      {name:"Biryani Masala",         unit:"50g packet",    qty:1,  costPerUnit:35},
+      {name:"Ghee",                   unit:"200ml jar",     qty:1,  costPerUnit:120},
+      {name:"Fresh Mint Leaves",      unit:"bunch",         qty:1,  costPerUnit:15},
+      {name:"Saffron",                unit:"small pack",    qty:1,  costPerUnit:55}
     ]
   },
   "Chicken Manchuriya": {
-    desc:"Fresh chicken manchuriya", thumb:"thumbnails/chickenmanchuriya.jpg",
+    desc:"Fresh Chicken Manchuriya", thumb:"thumbnails/chickenmanchuriya.jpg",
     ingredients:[
-      {name:"Boneless chicken",    unit:"g",       qty:400,  costPerUnit:0.22},
-      {name:"Cornflour",           unit:"tbsp",    qty:4,    costPerUnit:3},
-      {name:"Soy sauce",           unit:"tbsp",    qty:2,    costPerUnit:5},
-      {name:"Garlic (minced)",     unit:"cloves",  qty:4,    costPerUnit:2},
-      {name:"Green chilli",        unit:"pieces",  qty:2,    costPerUnit:2},
-      {name:"Spring onion",        unit:"stalks",  qty:3,    costPerUnit:4},
-      {name:"Tomato ketchup",      unit:"tbsp",    qty:2,    costPerUnit:5},
-      {name:"Oil",                 unit:"tbsp",    qty:3,    costPerUnit:4}
+      {name:"Boneless Chicken",       unit:"500g pack",     qty:1,  costPerUnit:150},
+      {name:"Cornflour",              unit:"200g packet",   qty:1,  costPerUnit:30},
+      {name:"Soy Sauce",              unit:"bottle",        qty:1,  costPerUnit:55},
+      {name:"Garlic",                 unit:"100g loose",    qty:1,  costPerUnit:20},
+      {name:"Green Chilli",           unit:"100g loose",    qty:1,  costPerUnit:15},
+      {name:"Spring Onion",           unit:"bunch",         qty:1,  costPerUnit:20},
+      {name:"Tomato Ketchup",         unit:"bottle",        qty:1,  costPerUnit:75},
+      {name:"Cooking Oil",            unit:"500ml bottle",  qty:1,  costPerUnit:80}
     ]
   },
   "Egg Fried Rice": {
-    desc:"Tasty and full of protein", thumb:"thumbnails/eggfriedrice.jpg",
+    desc:"Tasty And Full Of Protein", thumb:"thumbnails/eggfriedrice.jpg",
     ingredients:[
-      {name:"Cooked rice",         unit:"cups",    qty:2,    costPerUnit:15},
-      {name:"Eggs",                unit:"pieces",  qty:3,    costPerUnit:7},
-      {name:"Carrot (diced)",      unit:"medium",  qty:1,    costPerUnit:8},
-      {name:"Spring onion",        unit:"stalks",  qty:2,    costPerUnit:4},
-      {name:"Soy sauce",           unit:"tbsp",    qty:2,    costPerUnit:5},
-      {name:"Oil",                 unit:"tbsp",    qty:2,    costPerUnit:4},
-      {name:"Black pepper",        unit:"tsp",     qty:0.5,  costPerUnit:4},
-      {name:"Salt",                unit:"tsp",     qty:0.5,  costPerUnit:1}
+      {name:"Basmati Rice",           unit:"1kg packet",    qty:1,  costPerUnit:110},
+      {name:"Eggs",                   unit:"6 pack",        qty:1,  costPerUnit:65},
+      {name:"Carrot",                 unit:"250g loose",    qty:1,  costPerUnit:20},
+      {name:"Spring Onion",           unit:"bunch",         qty:1,  costPerUnit:20},
+      {name:"Soy Sauce",              unit:"bottle",        qty:1,  costPerUnit:55},
+      {name:"Cooking Oil",            unit:"500ml bottle",  qty:1,  costPerUnit:80},
+      {name:"Black Pepper Powder",    unit:"50g packet",    qty:1,  costPerUnit:30},
+      {name:"Salt",                   unit:"1kg packet",    qty:1,  costPerUnit:20}
     ]
   },
   "Fried Veg Momos": {
-    desc:"Yummy fried momos", thumb:"thumbnails/friedmomos.jpg",
+    desc:"Yummy Fried Momos", thumb:"thumbnails/friedmomos.jpg",
     ingredients:[
-      {name:"All-purpose flour",   unit:"cups",    qty:2,    costPerUnit:12},
-      {name:"Cabbage (shredded)",  unit:"cups",    qty:1,    costPerUnit:8},
-      {name:"Carrot (grated)",     unit:"medium",  qty:1,    costPerUnit:8},
-      {name:"Onion (chopped)",     unit:"medium",  qty:1,    costPerUnit:8},
-      {name:"Garlic (minced)",     unit:"cloves",  qty:3,    costPerUnit:2},
-      {name:"Soy sauce",           unit:"tbsp",    qty:1,    costPerUnit:5},
-      {name:"Oil for frying",      unit:"cups",    qty:1,    costPerUnit:20},
-      {name:"Salt",                unit:"tsp",     qty:1,    costPerUnit:1}
+      {name:"All-Purpose Flour (Maida)", unit:"500g packet", qty:1, costPerUnit:30},
+      {name:"Cabbage",                unit:"1 whole",       qty:1,  costPerUnit:30},
+      {name:"Carrot",                 unit:"250g loose",    qty:1,  costPerUnit:20},
+      {name:"Onion",                  unit:"500g loose",    qty:1,  costPerUnit:25},
+      {name:"Garlic",                 unit:"100g loose",    qty:1,  costPerUnit:20},
+      {name:"Soy Sauce",              unit:"bottle",        qty:1,  costPerUnit:55},
+      {name:"Cooking Oil",            unit:"500ml bottle",  qty:1,  costPerUnit:80},
+      {name:"Salt",                   unit:"1kg packet",    qty:1,  costPerUnit:20}
     ]
   },
   "Paneer Butter Masala": {
-    desc:"Try with your own and see", thumb:"thumbnails/pannerbuttermasala.jpg",
+    desc:"Try With Your Own And See", thumb:"thumbnails/pannerbuttermasala.jpg",
     ingredients:[
-      {name:"Paneer",              unit:"g",       qty:250,  costPerUnit:0.44},
-      {name:"Tomatoes",            unit:"medium",  qty:3,    costPerUnit:10},
-      {name:"Butter",              unit:"tbsp",    qty:3,    costPerUnit:10},
-      {name:"Heavy cream",         unit:"tbsp",    qty:4,    costPerUnit:8},
-      {name:"Onion (chopped)",     unit:"medium",  qty:1,    costPerUnit:8},
-      {name:"Garam masala",        unit:"tsp",     qty:1,    costPerUnit:4},
-      {name:"Kashmiri chilli pwd", unit:"tsp",     qty:1,    costPerUnit:4},
-      {name:"Cashews",             unit:"pieces",  qty:10,   costPerUnit:3}
+      {name:"Paneer",                 unit:"200g pack",     qty:1,  costPerUnit:90},
+      {name:"Tomatoes",               unit:"500g loose",    qty:1,  costPerUnit:30},
+      {name:"Butter",                 unit:"100g pack",     qty:1,  costPerUnit:55},
+      {name:"Fresh Cream",            unit:"200ml pack",    qty:1,  costPerUnit:60},
+      {name:"Onion",                  unit:"500g loose",    qty:1,  costPerUnit:25},
+      {name:"Garam Masala",           unit:"50g packet",    qty:1,  costPerUnit:30},
+      {name:"Kashmiri Chilli Powder", unit:"50g packet",    qty:1,  costPerUnit:30},
+      {name:"Cashews",                unit:"100g pack",     qty:1,  costPerUnit:90}
     ]
   },
   "Paneer Tikka": {
-    desc:"Healthy healthy paneer", thumb:"thumbnails/pannertikka.jpg",
+    desc:"Healthy Paneer Tikka", thumb:"thumbnails/pannertikka.jpg",
     ingredients:[
-      {name:"Paneer",              unit:"g",       qty:300,  costPerUnit:0.44},
-      {name:"Thick yogurt",        unit:"tbsp",    qty:4,    costPerUnit:4},
-      {name:"Bell pepper (cubed)", unit:"medium",  qty:1,    costPerUnit:20},
-      {name:"Onion (cubed)",       unit:"medium",  qty:1,    costPerUnit:8},
-      {name:"Tikka masala",        unit:"tbsp",    qty:2,    costPerUnit:8},
-      {name:"Lemon juice",         unit:"tbsp",    qty:1,    costPerUnit:3},
-      {name:"Oil",                 unit:"tbsp",    qty:1,    costPerUnit:4},
-      {name:"Chaat masala",        unit:"tsp",     qty:0.5,  costPerUnit:4}
+      {name:"Paneer",                 unit:"200g pack",     qty:1,  costPerUnit:90},
+      {name:"Curd / Yogurt",          unit:"400g cup",      qty:1,  costPerUnit:45},
+      {name:"Capsicum / Bell Pepper", unit:"250g loose",    qty:1,  costPerUnit:40},
+      {name:"Onion",                  unit:"500g loose",    qty:1,  costPerUnit:25},
+      {name:"Tandoori / Tikka Masala",unit:"50g packet",    qty:1,  costPerUnit:35},
+      {name:"Lemon",                  unit:"3 piece loose", qty:1,  costPerUnit:15},
+      {name:"Cooking Oil",            unit:"500ml bottle",  qty:1,  costPerUnit:80},
+      {name:"Chaat Masala",           unit:"50g packet",    qty:1,  costPerUnit:30}
     ]
   },
   "Cheese Pizza": {
-    desc:"Overloaded extra cheese", thumb:"thumbnails/chesesepizza.jpg",
+    desc:"Overloaded Extra Cheese", thumb:"thumbnails/chesesepizza.jpg",
     ingredients:[
-      {name:"Pizza dough",         unit:"g",       qty:300,  costPerUnit:0.15},
-      {name:"Mozzarella cheese",   unit:"g",       qty:200,  costPerUnit:0.8},
-      {name:"Pizza sauce",         unit:"tbsp",    qty:4,    costPerUnit:8},
-      {name:"Cheddar cheese",      unit:"g",       qty:50,   costPerUnit:0.9},
-      {name:"Oregano",             unit:"tsp",     qty:1,    costPerUnit:4},
-      {name:"Chilli flakes",       unit:"tsp",     qty:0.5,  costPerUnit:3},
-      {name:"Olive oil",           unit:"tbsp",    qty:1,    costPerUnit:10}
+      {name:"Pizza Base / Dough",     unit:"2 pack",        qty:1,  costPerUnit:65},
+      {name:"Mozzarella Cheese",      unit:"200g pack",     qty:1,  costPerUnit:140},
+      {name:"Pizza & Pasta Sauce",    unit:"jar",           qty:1,  costPerUnit:80},
+      {name:"Cheddar Cheese",         unit:"100g pack",     qty:1,  costPerUnit:110},
+      {name:"Dried Oregano",          unit:"small bottle",  qty:1,  costPerUnit:40},
+      {name:"Chilli Flakes",          unit:"small bottle",  qty:1,  costPerUnit:40},
+      {name:"Olive Oil",              unit:"250ml bottle",  qty:1,  costPerUnit:180}
     ]
   },
   "Street Maggie": {
-    desc:"Ready in 2 minutes", thumb:"thumbnails/strretmaggie.jpg",
+    desc:"Ready In 2 Minutes", thumb:"thumbnails/strretmaggie.jpg",
     ingredients:[
-      {name:"Maggie noodles",      unit:"packets", qty:2,    costPerUnit:14},
-      {name:"Water",               unit:"cups",    qty:1.5,  costPerUnit:0},
-      {name:"Butter",              unit:"tbsp",    qty:1,    costPerUnit:10},
-      {name:"Onion (chopped)",     unit:"small",   qty:1,    costPerUnit:5},
-      {name:"Tomato (chopped)",    unit:"small",   qty:1,    costPerUnit:6},
-      {name:"Green chilli",        unit:"pieces",  qty:1,    costPerUnit:2},
-      {name:"Chaat masala",        unit:"tsp",     qty:0.5,  costPerUnit:4}
+      {name:"Maggi Nooddles",          unit:"4 pack bundle", qty:1,  costPerUnit:56},
+      {name:"Butter",                 unit:"100g pack",     qty:1,  costPerUnit:55},
+      {name:"Onion",                  unit:"500g loose",    qty:1,  costPerUnit:25},
+      {name:"Tomato",                 unit:"500g loose",    qty:1,  costPerUnit:30},
+      {name:"Green Chilli",           unit:"100g loose",    qty:1,  costPerUnit:15},
+      {name:"Chaat Masala",           unit:"50g packet",    qty:1,  costPerUnit:30}
     ]
   },
   "Veg Noodles": {
-    desc:"Delicious noodles", thumb:"thumbnails/vegnoodles.jpg",
+    desc:"Delicious Nooddles", thumb:"thumbnails/vegnoodles.jpg",
     ingredients:[
-      {name:"Noodles",             unit:"g",       qty:200,  costPerUnit:0.12},
-      {name:"Cabbage (shredded)",  unit:"cups",    qty:1,    costPerUnit:8},
-      {name:"Carrot (julienned)",  unit:"medium",  qty:1,    costPerUnit:8},
-      {name:"Bell pepper",         unit:"medium",  qty:1,    costPerUnit:20},
-      {name:"Spring onion",        unit:"stalks",  qty:2,    costPerUnit:4},
-      {name:"Soy sauce",           unit:"tbsp",    qty:2,    costPerUnit:5},
-      {name:"Vinegar",             unit:"tsp",     qty:1,    costPerUnit:2},
-      {name:"Oil",                 unit:"tbsp",    qty:2,    costPerUnit:4}
+      {name:"Hakka Nooddles",          unit:"200g packet",   qty:1,  costPerUnit:40},
+      {name:"Cabbage",                unit:"1 whole",       qty:1,  costPerUnit:30},
+      {name:"Carrot",                 unit:"250g loose",    qty:1,  costPerUnit:20},
+      {name:"Capsicum / Bell Pepper", unit:"250g loose",    qty:1,  costPerUnit:40},
+      {name:"Spring Onion",           unit:"bunch",         qty:1,  costPerUnit:20},
+      {name:"Soy Sauce",              unit:"bottle",        qty:1,  costPerUnit:55},
+      {name:"Vinegar",                unit:"bottle",        qty:1,  costPerUnit:35},
+      {name:"Cooking Oil",            unit:"500ml bottle",  qty:1,  costPerUnit:80}
     ]
   },
-  "Tandoor Roti": {
-    desc:"Street style roti at home", thumb:"thumbnails/tandooriroti.jpg",
+  "Tandoori Roti": {
+    desc:"Street Style Roti At Home", thumb:"thumbnails/tandooriroti.jpg",
     ingredients:[
-      {name:"Wheat flour",         unit:"cups",    qty:2,    costPerUnit:10},
-      {name:"Water (lukewarm)",    unit:"ml",      qty:150,  costPerUnit:0},
-      {name:"Salt",                unit:"tsp",     qty:0.5,  costPerUnit:1},
-      {name:"Butter",              unit:"tbsp",    qty:2,    costPerUnit:10},
-      {name:"Baking powder",       unit:"tsp",     qty:0.25, costPerUnit:3},
-      {name:"Yogurt",              unit:"tbsp",    qty:1,    costPerUnit:4}
+      {name:"Wheat Flour (Atta)",     unit:"1kg packet",    qty:1,  costPerUnit:55},
+      {name:"Salt",                   unit:"1kg packet",    qty:1,  costPerUnit:20},
+      {name:"Butter",                 unit:"100g pack",     qty:1,  costPerUnit:55},
+      {name:"Baking Powder",          unit:"100g pack",     qty:1,  costPerUnit:35},
+      {name:"Curd / Yogurt",          unit:"400g cup",      qty:1,  costPerUnit:45}
     ]
   }
 };
@@ -764,11 +340,13 @@ function renderIngredients(){
     const row = document.createElement("div");
     row.className = "ingredient-row";
     row.innerHTML = `
-      <span class="ingredient-name">${ing.name}</span>
-      <span class="ingredient-unit">${ing.unit}</span>
+      <div style="flex:1;min-width:0">
+        <div class="ingredient-name">${ing.name}</div>
+        <div class="ingredient-unit">${ing.unit} &nbsp;·&nbsp; ₹${ing.costPerUnit} each</div>
+      </div>
       <div class="qty-control">
         <button onclick="changeIngQty(${idx},-1)">−</button>
-        <span class="qty-value" id="iqty-${idx}">${formatQty(currentQtys[idx])}</span>
+        <span class="qty-value" id="iqty-${idx}">${currentQtys[idx]}</span>
         <button onclick="changeIngQty(${idx},1)">+</button>
       </div>
       <span class="ingredient-cost" id="icost-${idx}">₹${rowCost}</span>`;
@@ -782,9 +360,8 @@ function formatQty(val){
 }
 
 function changeIngQty(idx, delta){
-  const step = currentQtys[idx] < 2 ? 0.25 : 1;
-  currentQtys[idx] = Math.max(0, currentQtys[idx] + delta * step);
-  document.getElementById(`iqty-${idx}`).textContent = formatQty(currentQtys[idx]);
+  currentQtys[idx] = Math.max(0, currentQtys[idx] + delta);
+  document.getElementById(`iqty-${idx}`).textContent = currentQtys[idx];
   const rowCost = (currentQtys[idx] * dish.ingredients[idx].costPerUnit).toFixed(2);
   document.getElementById(`icost-${idx}`).textContent = `₹${rowCost}`;
   renderCostSummary();
@@ -800,13 +377,13 @@ function renderCostSummary(){
     if(cost > 0){
       total += cost;
       rows += `<div class="cost-row">
-        <span>${ing.name} (${formatQty(currentQtys[idx])} ${ing.unit})</span>
+        <span>${ing.name} <span style="color:#bbb;font-size:12px">(${currentQtys[idx]} × ${ing.unit})</span></span>
         <span>₹${cost.toFixed(2)}</span>
       </div>`;
     }
   });
   summary.innerHTML = `
-    <div class="cost-summary-title">💰 Ingredient Cost Breakdown</div>
+    <div class="cost-summary-title"> Ingredient Cost Breakdown</div>
     ${rows || '<div class="cost-row"><span style="color:#aaa">All quantities set to 0</span><span>₹0.00</span></div>'}
     <div class="cost-row total-row">
       <span>Total Estimated Cost</span>
