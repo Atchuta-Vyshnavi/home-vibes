@@ -1,1 +1,348 @@
+<!-- <!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HomeVibes — Cart</title>
 
+<style>
+:root{
+  --accent1:#ff6f61;
+  --accent2:#ffcc70;
+}
+body{
+  margin:0;
+  font-family:Poppins, sans-serif;
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+}
+
+/* NAVBAR */
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 24px;
+  color:white;
+}
+.navbar h1{ margin:0; }
+
+/* CART */
+.cart-box{
+  max-width:700px;
+  margin:30px auto;
+  background:white;
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.2);
+}
+.cart-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:12px;
+  border-bottom:1px solid #eee;
+  padding-bottom:10px;
+}
+.cart-item img{
+  width:70px;
+  height:70px;
+  border-radius:10px;
+  object-fit:cover;
+}
+.cart-details{ flex:1; }
+.cart-details h4{ margin:0 0 4px; }
+.qty{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+.qty button{
+  width:26px;
+  height:26px;
+  border:none;
+  background:var(--accent1);
+  color:white;
+  border-radius:6px;
+  cursor:pointer;
+}
+.total{
+  font-size:18px;
+  font-weight:700;
+  text-align:right;
+  margin-top:15px;
+}
+.checkout{
+  width:100%;
+  padding:12px;
+  border:none;
+  background:var(--accent1);
+  color:white;
+  font-size:16px;
+  border-radius:8px;
+  margin-top:10px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+  <h1>🛒 Your Cart</h1>
+  <button onclick="goHome()">⬅ Home</button>
+</div>
+
+<div class="cart-box" id="cartBox"></div>
+
+<script>
+function goHome(){
+  window.location.href = "home.html";
+}
+
+function renderCart(){
+  const cartBox = document.getElementById("cartBox");
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+  if(cart.length === 0){
+    cartBox.innerHTML = "<p>Your cart is empty</p>";
+    return;
+  }
+
+  let total = 0;
+  cartBox.innerHTML = "";
+
+  cart.forEach((item, index) => {
+    total += item.price * item.qty;
+
+    cartBox.innerHTML += `
+      <div class="cart-item">
+        <img src="${item.img}">
+        <div class="cart-details">
+          <h4>${item.title}</h4>
+          <p>₹${item.price} × ${item.qty}</p>
+          <div class="qty">
+            <button onclick="updateQty(${index},-1)">−</button>
+            <span>${item.qty}</span>
+            <button onclick="updateQty(${index},1)">+</button>
+          </div>
+        </div>
+        <button onclick="removeItem(${index})">🗑</button>
+      </div>
+    `;
+  });
+
+  cartBox.innerHTML += `
+    <div class="total">Total: ₹${total}</div>
+    <button class="checkout" onclick="checkout()">Checkout</button>
+  `;
+}
+
+function updateQty(i, change){
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  cart[i].qty += change;
+  if(cart[i].qty <= 0) cart.splice(i,1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+}
+
+function removeItem(i){
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  cart.splice(i,1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+}
+
+function checkout(){
+  alert("Order placed successfully (Demo)");
+  localStorage.removeItem("cart");
+  renderCart();
+}
+
+window.onload = renderCart;
+</script>
+
+</body>
+</html> -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HomeVibes — Cart</title>
+
+<style>
+:root{
+  --accent1:#ff6f61;
+  --accent2:#ffcc70;
+}
+body{
+  margin:0;
+  height:100vh;
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  font-family:Poppins,sans-serif;
+}
+
+/* ===== SAME CART CSS FROM HOME ===== */
+.sidecart {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 350px;
+  height: 98vh;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(5px);
+  box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+  transition: right 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 1000;
+  padding: 16px;
+  overflow-y: auto;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+.sidecart.open { right: 0; opacity: 1; }
+
+.cart-header, .cart-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cart-footer {
+  border-top: 1px solid #ddd;
+  padding-top: 8px;
+}
+.checkout {
+  width: 100%;
+  background: var(--accent1);
+  color: white;
+  border: none;
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.checkout:hover { background: var(--accent2); color: black; }
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0;
+  background: rgba(255,255,255,0.85);
+  border-radius: 10px;
+  padding: 6px;
+}
+.cart-item img {
+  width: 50px; height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.cart-details { flex: 1; margin-left: 10px; }
+.cart-details h4 { margin: 0; font-size: 15px; }
+.cart-details p { margin: 3px 0 0; font-size: 13px; color: #555; }
+
+.qty-controls {
+  display: flex; align-items: center; gap: 5px;
+}
+.qty-controls button {
+  background: var(--accent1);
+  color: white;
+  border: none;
+  width: 22px; height: 22px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.remove-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #d33;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== CART HTML ===== -->
+<div id="sidecart" class="sidecart open">
+  <div class="cart-header">
+    <strong>Your Cart</strong>
+    <button onclick="goHome()">✕</button>
+  </div>
+
+  <div id="cartItems"></div>
+
+  <div class="cart-footer">
+    <div>Total: <strong id="cartTotal">₹0</strong></div>
+    <button class="checkout" onclick="checkout()">Checkout</button>
+  </div>
+</div>
+
+<script>
+function renderCart(){
+  const items = JSON.parse(localStorage.getItem("cart") || "[]");
+  const container = document.getElementById("cartItems");
+  container.innerHTML = "";
+  let total = 0;
+
+  if(items.length === 0){
+    container.innerHTML = "<p style='text-align:center;color:gray'>Your cart is empty</p>";
+  } else {
+    items.forEach((it,i)=>{
+      total += it.price * it.qty;
+      container.innerHTML += `
+        <div class="cart-item">
+          <img src="${it.img}">
+          <div class="cart-details">
+            <h4>${it.title}</h4>
+            <p>₹${it.price} × ${it.qty}</p>
+          </div>
+          <div style="display:flex;align-items:center;">
+            <div class="qty-controls">
+              <button onclick="updateQty(${i},-1)">−</button>
+              <span>${it.qty}</span>
+              <button onclick="updateQty(${i},1)">+</button>
+            </div>
+            <button class="remove-btn" onclick="removeItem(${i})">🗑️</button>
+          </div>
+        </div>`;
+    });
+  }
+  document.getElementById("cartTotal").innerText = "₹" + total;
+}
+
+function updateQty(i, change){
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  cart[i].qty += change;
+  if(cart[i].qty <= 0) cart.splice(i,1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+}
+
+function removeItem(i){
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  cart.splice(i,1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+}
+
+function checkout(){
+  alert("Order placed successfully (Demo)");
+  localStorage.removeItem("cart");
+  renderCart();
+}
+
+function goHome(){
+  window.location.href = "home.html";
+}
+
+window.onload = renderCart;
+</script>
+
+</body>
+</html>
