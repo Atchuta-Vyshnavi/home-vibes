@@ -1129,13 +1129,34 @@ function renderProfile() {
   renderAddresses();
   renderPrefs();
   renderStats();
+    renderOrders();
 }
+
 function renderStats() {
   const stats = JSON.parse(localStorage.getItem('hv_stats') || '{"orders":0,"spent":0}');
   document.getElementById('statOrders').textContent = stats.orders;
   document.getElementById('statSpent').textContent  = '₹' + stats.spent.toFixed(2);
 }
-
+function renderOrders() {
+  const history = JSON.parse(localStorage.getItem('orderHistory') || '[]');
+  const empty   = document.getElementById('orderEmpty');
+  const list    = document.getElementById('orderList');
+  if (history.length === 0) {
+    empty.style.display = 'block';
+    list.innerHTML = '';
+    return;
+  }
+  empty.style.display = 'none';
+  list.innerHTML = history.map(o => `
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--soft);">
+      <img src="${o.img}" style="width:48px;height:48px;border-radius:9px;object-fit:cover;flex-shrink:0;">
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:14px;font-weight:600;color:var(--charcoal);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${o.title}</div>
+        <div style="font-size:12px;color:var(--stone);">Qty: ${o.qty} &nbsp;·&nbsp; ${o.date}</div>
+      </div>
+      <div style="font-size:14px;font-weight:700;color:var(--coral);flex-shrink:0;">₹${o.total}</div>
+    </div>`).join('');
+}
 // ── Addresses ──
 function renderAddresses() {
   const list = document.getElementById('addrList');

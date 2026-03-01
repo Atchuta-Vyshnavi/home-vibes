@@ -1073,12 +1073,34 @@ function processPayment() {
     btnText.textContent = `Pay ₹${total.toFixed(2)}`;
 
     // ── Update profile order stats ──
-    const stats = JSON.parse(localStorage.getItem('hv_stats') || '{"orders":0,"spent":0}');
+    /*const stats = JSON.parse(localStorage.getItem('hv_stats') || '{"orders":0,"spent":0}');
     stats.orders += 1;
     stats.spent  += total;
     localStorage.setItem('hv_stats', JSON.stringify(stats));
 
-    localStorage.removeItem(window._checkoutSource || 'cart');
+    localStorage.removeItem(window._checkoutSource || 'cart');*/
+    const stats = JSON.parse(localStorage.getItem('hv_stats') || '{"orders":0,"spent":0}');
+stats.orders += 1;
+stats.spent  += total;
+localStorage.setItem('hv_stats', JSON.stringify(stats));
+
+// ── Save order to history for profile page ──
+const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+if (cart.length > 0) {
+  const history = JSON.parse(localStorage.getItem('orderHistory') || '[]');
+  cart.forEach(item => {
+    history.unshift({
+      img:   item.img,
+      title: item.title,
+      qty:   item.qty,
+      total: (item.price * item.qty + 40).toFixed(2),
+      date:  new Date().toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'})
+    });
+  });
+  localStorage.setItem('orderHistory', JSON.stringify(history));
+}
+
+localStorage.removeItem(window._checkoutSource || 'cart');
     document.getElementById('successOverlay').classList.add('show');
   }, 2200);
 }
