@@ -1064,7 +1064,133 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-window.onload = loadSummary;
+//window.onload = loadSummary;
+window.onload = function() {
+  loadSummary();
+  prefillFromProfile();
+};
+
+function prefillFromProfile() {
+  // Try saved addresses first, then fall back to profile
+  const addresses = JSON.parse(localStorage.getItem('hv_addresses') || '[]');
+  const profile   = JSON.parse(localStorage.getItem('hv_profile') || 'null');
+  const signupUser = JSON.parse(localStorage.getItem('user') || 'null');
+
+  // Get default address or first saved address
+  const defaultAddr = addresses.find(a => a.isDefault) || addresses[0];
+
+  // Fill name from profile or signup
+  const name = (profile && profile.name) || (signupUser && signupUser.name) || '';
+  const email = (profile && profile.email) || (signupUser && signupUser.email) || '';
+  const phone = (profile && profile.phone) || '';
+
+  if (name) {
+    const parts = name.trim().split(' ');
+    document.getElementById('fname').value = parts[0] || '';
+    document.getElementById('lname').value = parts.slice(1).join(' ') || '';
+  }
+  if (email) document.getElementById('email').value = email;
+  if (phone) document.getElementById('phone').value = phone;
+
+  // Fill address from saved addresses
+  if (defaultAddr) {
+    document.getElementById('address').value = defaultAddr.fullAddr || '';
+    document.getElementById('city').value    = defaultAddr.city     || '';
+    document.getElementById('pin').value     = defaultAddr.pin      || '';
+    if (defaultAddr.phone && !phone) document.getElementById('phone').value = defaultAddr.phone;
+    // Try to match state
+    if (profile && profile.city) matchState(profile.city);
+  } else if (profile && profile.city) {
+    document.getElementById('city').value = profile.city;
+  }
+
+  // Show prefill banner if data was loaded
+  if (name || defaultAddr) showPrefillBanner(defaultAddr);
+}
+
+function matchState(city) {
+  const cityStateMap = {
+    'chennai': 'Tamil Nadu', 'coimbatore': 'Tamil Nadu', 'madurai': 'Tamil Nadu',
+    'mumbai': 'Maharashtra', 'pune': 'Maharashtra', 'nagpur': 'Maharashtra',
+    'bangalore': 'Karnataka', 'bengaluru': 'Karnataka', 'mysuru': 'Karnataka',
+    'delhi': 'Delhi', 'new delhi': 'Delhi',
+    'hyderabad': 'Telangana', 'warangal': 'Telangana',
+    'ahmedabad': 'Gujarat', 'surat': 'Gujarat',
+    'kolkata': 'West Bengal',
+    'lucknow': 'Uttar Pradesh', 'kanpur': 'Uttar Pradesh',
+    'jaipur': 'Rajasthan', 'jodhpur': 'Rajasthan',
+    'kochi': 'Kerala', 'thiruvananthapuram': 'Kerala',
+    'chandigarh': 'Punjab', 'ludhiana': 'Punjab',
+    'gurugram': 'Haryana', 'faridabad': 'Haryana'
+  };
+  const match = cityStateMap[city.toLowerCase()];
+  if (match) {
+    const select = document.getElementById('state');
+    for (let opt of select.options) {
+      if (opt.value === match) { select.value = match; break; }
+    }
+  }
+}
+
+function showPrefillBanner(addr) {
+  // Insert banner above the delivery address form
+  const stepCard = document.querySelector('.section-card');
+  const banner = document.createElement('div');
+  banner.id = 'prefillBanner';
+  banner.style.cssText = `
+    background: linear-gradient(135deg, rgba(39,174,96,0.08), rgba(39,174,96,0.04));
+    border: 1.5px solid rgba(39,174,96,0.25);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    animation: fadeUp 0.4s ease both;
+  `;
+  banner.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-size:18px;">✅</span>
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#1a7a45;">Address prefilled from your profile</div>
+        <div style="font-size:11.5px;color:var(--stone);margin-top:1px;">
+          ${addr ? `Using: <strong>${addr.label || 'Saved'}</strong> address` : 'Using your profile info'}
+        </div>
+      </div>
+    </div>
+    <button onclick="clearPrefill()" style="
+      background:none;border:1.5px solid rgba(39,174,96,0.3);
+      color:#27ae60;padding:5px 12px;border-radius:8px;
+      font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;
+      cursor:pointer;white-space:nowrap;transition:all 0.2s;
+    " onmouseover="this.style.background='rgba(39,174,96,0.1)'" 
+       onmouseout="this.style.background='none'">
+      ✏️ Edit
+    </button>
+  `;
+  // Insert inside the first section-card after step-header
+  const stepHeader = stepCard.querySelector('.step-header');
+  stepHeader.insertAdjacentElement('afterend', banner);
+}
+
+function clearPrefill() {
+  // Clear all address fields for manual entry
+  ['fname','lname','phone','email','address','city','pin'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('state').value = '';
+  const banner = document.getElementById('prefillBanner');
+  if (banner) {
+    banner.style.opacity = '0';
+    banner.style.transform = 'translateY(-8px)';
+    banner.style.transition = 'all 0.3s ease';
+    setTimeout(() => banner.remove(), 300);
+  }
+  // Focus first field
+  document.getElementById('fname').focus();
+  showToast('✏️ Fields cleared — enter your details');
+}
 </script>
 </body>
 </html>

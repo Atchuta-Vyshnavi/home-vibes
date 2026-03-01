@@ -975,13 +975,29 @@ function updateCount() {
 /*function checkout() {
   const cart = JSON.parse(localStorage.getItem('cart') || '[]');
   if (cart.length === 0) { alert('Your cart is empty!'); return; }*/
-  function checkout() {
+//   function checkout() {
+//   const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+//   if (cart.length === 0) { showCartEmptyMsg(); return; }
+//  // alert('Thank you for your order! (Demo)');
+//   localStorage.removeItem('cart');
+//   renderCart();
+//   toggleCart();
+// }
+function checkout() {
   const cart = JSON.parse(localStorage.getItem('cart') || '[]');
   if (cart.length === 0) { showCartEmptyMsg(); return; }
- // alert('Thank you for your order! (Demo)');
-  localStorage.removeItem('cart');
-  renderCart();
-  toggleCart();
+  
+  // Close sidecart with animation first
+  document.getElementById('sidecart').classList.remove('open');
+  document.getElementById('overlay').classList.remove('active');
+  
+  // Navigate after animation completes
+  setTimeout(() => {
+    window.location.href = 'payment.html';
+  }, 350);
+  
+     renderCart();
+     toggleCart();
 }
 function showCartEmptyMsg() {
   const existing = document.getElementById('cartEmptyMsg');

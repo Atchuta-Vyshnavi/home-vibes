@@ -732,7 +732,7 @@ function buyNow() {
   if (!dish) return;
   const total = getTotal();
   localStorage.setItem('order', JSON.stringify([{ title, img: dish.thumb, price: total, qty: 1 }]));
-  window.location.href = 'buynow.html';
+  window.location.href = 'payment.html';
 }
 
 function showToast(msg) {
