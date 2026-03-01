@@ -838,15 +838,17 @@ html, body {
       <p>Looks like you haven't added<br>anything yet. Go pick something<br>delicious! 🍽️</p>
     </div>
   </div>
-  <!-- <div class="cart-footer">
+  <div class="cart-footer">
     <div class="total-row">
-      <span>Total</span>
-      <strong id="cartTotal">₹0</strong>
+      <!-- <span>Total</span>
+      <strong id="cartTotal">₹0</strong> -->
+      <span style="font-weight:700;color:var(--charcoal);">Total</span>
+    <strong id="cartTotal" style="color:var(--coral);">₹0</strong>
     </div>
     <button class="checkout-btn" onclick="checkout()">Proceed to Checkout →</button>
   </div>
-</div> -->
-<div class="cart-footer">
+</div> 
+<!-- <div class="cart-footer">
   <div class="total-row">
     <span>Subtotal</span>
     <strong id="cartSubtotal">₹0</strong>
@@ -861,7 +863,7 @@ html, body {
     <strong id="cartTotal" style="color:var(--coral);">₹0</strong>
   </div>
   <button class="checkout-btn" onclick="checkout()">Proceed to Checkout →</button>
-</div>
+</div> -->
 
 <script>
 function openVideo(src, title) {
@@ -951,13 +953,13 @@ function renderCart() {
     }).join('');
   }
 
-  // document.getElementById('cartTotal').textContent = '₹' + total.toFixed(2);
-  // updateCount();
-  const delivery = total > 0 ? 40 : 0;
-  document.getElementById('cartSubtotal').textContent = '₹' + total.toFixed(2);
-  document.getElementById('cartDelivery').textContent = '₹' + delivery.toFixed(2);
-  document.getElementById('cartTotal').textContent = '₹' + (total + delivery).toFixed(2);
+  document.getElementById('cartTotal').textContent = '₹' + total.toFixed(2);
   updateCount();
+  // const delivery = total > 0 ? 40 : 0;
+  // document.getElementById('cartSubtotal').textContent = '₹' + total.toFixed(2);
+  // document.getElementById('cartDelivery').textContent = '₹' + delivery.toFixed(2);
+  // document.getElementById('cartTotal').textContent = '₹' + (total + delivery).toFixed(2);
+  // updateCount();
 }
 
 // function updateCount() {
@@ -970,15 +972,58 @@ function updateCount() {
   const n = items.reduce((s, i) => s + i.qty, 0);
   document.getElementById('cartCount').textContent = n;
 }
-function checkout() {
+/*function checkout() {
   const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-  if (cart.length === 0) { alert('Your cart is empty!'); return; }
-  alert('Thank you for your order! (Demo)');
+  if (cart.length === 0) { alert('Your cart is empty!'); return; }*/
+  function checkout() {
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  if (cart.length === 0) { showCartEmptyMsg(); return; }
+ // alert('Thank you for your order! (Demo)');
   localStorage.removeItem('cart');
   renderCart();
   toggleCart();
 }
+function showCartEmptyMsg() {
+  const existing = document.getElementById('cartEmptyMsg');
+  if (existing) return;
 
+  const msg = document.createElement('div');
+  msg.id = 'cartEmptyMsg';
+  msg.innerHTML = '🛒 Cart is empty — add some items first!';
+  msg.style.cssText = `
+    position: absolute;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: var(--charcoal);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 9999;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  `;
+
+  document.getElementById('sidecart').appendChild(msg);
+
+  // Trigger transition
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      msg.style.opacity = '1';
+      msg.style.transform = 'translateX(-50%) translateY(0)';
+    });
+  });
+
+  setTimeout(() => {
+    msg.style.opacity = '0';
+    msg.style.transform = 'translateX(-50%) translateY(10px)';
+    setTimeout(() => msg.remove(), 300);
+  }, 2500);
+}
 function filterDishes() {
   const q = document.getElementById('searchInput').value.toLowerCase();
   const cards = document.querySelectorAll('.gallery .card');

@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HomeVibes — Payment</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --coral: #E8614A;
+  --amber: #F5A623;
+  --cream: #FDF8F3;
+  --charcoal: #1C1C1E;
+  --stone: #6B6B6B;
+  --soft: #F0EBE3;
+  --white: #FFFFFF;
+  --shadow-lg: 0 20px 48px rgba(0,0,0,0.18);
+  --radius: 20px;
+}
+
+html, body {
+  min-height: 100vh;
+  font-family: 'DM Sans', sans-serif;
+  background: linear-gradient(145deg, #1C1C1E 0%, #2D2D30 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: -100px; right: -100px;
+  width: 420px; height: 420px;
+  background: radial-gradient(circle, rgba(232,97,74,0.22) 0%, transparent 70%);
+  pointer-events: none;
+}
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -100px; left: -60px;
+  width: 360px; height: 360px;
+  background: radial-gradient(circle, rgba(245,166,35,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── CARD ── */
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 420px;
+  overflow: hidden;
+  animation: fadeUp 0.55s cubic-bezier(0.4, 0, 0.2, 1) both;
+  position: relative;
+  z-index: 1;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── CARD HEADER ── */
+.card-header {
+  background: linear-gradient(135deg, #1C1C1E, #2D2D30);
+  padding: 22px 24px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.card-header::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 160px; height: 160px;
+  background: radial-gradient(circle, rgba(232,97,74,0.28), transparent 70%);
+}
+.header-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--coral), var(--amber));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+.header-text h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  line-height: 1.2;
+}
+.header-text p {
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+  margin-top: 1px;
+}
+
+/* ── DISH PREVIEW ── */
+.dish-preview {
+  position: relative;
+}
+.dish-preview img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+.dish-preview-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.55));
+  padding: 20px 18px 14px;
+}
+.dish-preview-overlay h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+}
+
+/* ── CARD BODY ── */
+.card-body {
+  padding: 20px 22px;
+}
+
+/* Order meta */
+.order-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13.5px;
+}
+.meta-row .label { color: var(--stone); }
+.meta-row .value { font-weight: 600; color: var(--charcoal); }
+.meta-divider { height: 1px; background: var(--soft); margin: 2px 0; }
+
+/* Total row */
+.total-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(232,97,74,0.07), rgba(245,166,35,0.07));
+  border: 1px solid rgba(232,97,74,0.14);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+}
+.total-box span:first-child {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--charcoal);
+}
+.total-box span:last-child {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--coral);
+}
+
+/* Payment methods */
+.pay-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--stone);
+  margin-bottom: 10px;
+}
+.pay-methods {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.pay-method {
+  background: var(--soft);
+  border: 1.5px solid transparent;
+  border-radius: 10px;
+  padding: 10px 6px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--stone);
+}
+.pay-method .pm-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+.pay-method:hover { border-color: var(--coral); color: var(--charcoal); }
+.pay-method.active {
+  border-color: var(--coral);
+  background: rgba(232,97,74,0.07);
+  color: var(--charcoal);
+}
+
+/* Buttons */
+.btn-pay {
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(135deg, var(--coral), #C94B35);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-pay:hover { opacity: 0.91; transform: translateY(-1px); }
+
+.btn-cancel {
+  width: 100%;
+  padding: 11px;
+  background: var(--soft);
+  color: var(--stone);
+  border: none;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-cancel:hover { background: #E8E0D8; color: var(--charcoal); }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 30px; left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: var(--charcoal);
+  color: white;
+  padding: 12px 22px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+  z-index: 9999;
+  white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- Header -->
+  <div class="card-header">
+    <div class="header-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="8" y1="2" x2="8" y2="12"/><path d="M5 2v4a3 3 0 0 0 6 0V2"/><line x1="8" y1="12" x2="8" y2="22"/>
+        <line x1="16" y1="2" x2="16" y2="22"/>
+      </svg>
+    </div>
+    <div class="header-text">
+      <h1>HomeVibes</h1>
+      <p>Secure Checkout</p>
+    </div>
+  </div>
+
+  <!-- Dish Thumbnail -->
+  <div class="dish-preview">
+    <img id="payThumb" src="" alt="Dish">
+    <div class="dish-preview-overlay">
+      <h2 id="payTitle">Loading…</h2>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="card-body">
+
+    <!-- Order Meta -->
+    <div class="order-meta">
+      <div class="meta-row">
+        <span class="label">Unit Price</span>
+        <span class="value" id="payPrice">—</span>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-row">
+        <span class="label">Quantity</span>
+        <span class="value" id="payQty">—</span>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-row">
+        <span class="label">Delivery</span>
+        <span class="value">₹40.00</span>
+      </div>
+    </div>
+
+    <!-- Total -->
+    <div class="total-box">
+      <span>Total Payable</span>
+      <span id="payTotal">₹—</span>
+    </div>
+
+    <!-- Payment Method -->
+    <div class="pay-label">Payment Method</div>
+    <div class="pay-methods">
+      <div class="pay-method active" onclick="selectMethod(this)">
+        <span class="pm-icon">💳</span>Card
+      </div>
+      <div class="pay-method" onclick="selectMethod(this)">
+        <span class="pm-icon">📱</span>UPI
+      </div>
+      <div class="pay-method" onclick="selectMethod(this)">
+        <span class="pm-icon">🏦</span>Net Banking
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <button class="btn-pay" id="payNowBtn">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+        <line x1="1" y1="10" x2="23" y2="10"/>
+      </svg>
+      Pay Now
+    </button>
+    <button class="btn-cancel" onclick="window.location.href='index.html'">Cancel</button>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const data = JSON.parse(localStorage.getItem('purchaseData') || 'null');
+
+  if (data) {
+    document.getElementById('payThumb').src       = data.thumbnail || '';
+    document.getElementById('payTitle').textContent = data.title || '—';
+    document.getElementById('payQty').textContent   = data.qty || '—';
+    document.getElementById('payPrice').textContent = data.price ? `₹${data.price}` : '—';
+    const total = (data.total || 0) + 40;
+    document.getElementById('payTotal').textContent = `₹${total.toFixed(2)}`;
+  }
+
+  function selectMethod(el) {
+    document.querySelectorAll('.pay-method').forEach(m => m.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  document.getElementById('payNowBtn').addEventListener('click', () => {
+    if (!data) { showToast('No order data found.'); return; }
+    showToast(`✓ Payment successful! Redirecting…`);
+    localStorage.removeItem('purchaseData');
+    setTimeout(() => window.location.href = 'home.html', 1500);
+  });
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+</script>
+</body>
+</html>

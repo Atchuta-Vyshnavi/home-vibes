@@ -432,20 +432,33 @@ function renderCart() {
   count.textContent = `· ${totalQty} item${totalQty !== 1 ? 's' : ''}`;
 
   // Summary
-  const delivery = subtotal > 0 ? 40 : 0;
+  // const delivery = subtotal > 0 ? 40 : 0;
+  // document.getElementById('summaryBody').innerHTML = `
+  //   <div class="summary-row">
+  //     <span>Subtotal</span>
+  //     <span class="s-val">₹${subtotal.toFixed(2)}</span>
+  //   </div>
+  //   <div class="summary-row">
+  //     <span>Delivery</span>
+  //     <span class="s-val">₹${delivery.toFixed(2)}</span>
+  //   </div>
+  //   <div class="summary-divider"></div>
+  //   <div class="summary-total">
+  //     <span>Total</span>
+  //     <span>₹${(subtotal + delivery).toFixed(2)}</span>
+  //   </div>`;
+  const itemRows = items.map(it => `
+    <div class="summary-row">
+      <span style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${it.title} <span style="color:#BBB;font-size:11px;">×${it.qty}</span></span>
+      <span class="s-val">₹${(it.price * it.qty).toFixed(2)}</span>
+    </div>`).join('');
+
   document.getElementById('summaryBody').innerHTML = `
-    <div class="summary-row">
-      <span>Subtotal</span>
-      <span class="s-val">₹${subtotal.toFixed(2)}</span>
-    </div>
-    <div class="summary-row">
-      <span>Delivery</span>
-      <span class="s-val">₹${delivery.toFixed(2)}</span>
-    </div>
+    ${itemRows}
     <div class="summary-divider"></div>
     <div class="summary-total">
       <span>Total</span>
-      <span>₹${(subtotal + delivery).toFixed(2)}</span>
+      <span>₹${subtotal.toFixed(2)}</span>
     </div>`;
 }
 
@@ -464,12 +477,17 @@ function removeItem(i) {
   renderCart();
 }
 
+// function checkout() {
+//   const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+//   if (cart.length === 0) { showToast('Your cart is empty!'); return; }
+//   showToast('✓ Order placed successfully!');
+//   localStorage.removeItem('cart');
+//   setTimeout(() => { renderCart(); }, 1200);
+// }
 function checkout() {
   const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-  if (cart.length === 0) { showToast('Your cart is empty!'); return; }
-  showToast('✓ Order placed successfully!');
-  localStorage.removeItem('cart');
-  setTimeout(() => { renderCart(); }, 1200);
+  if (cart.length === 0) { showToast('🛒 Your cart is empty!'); return; }
+  window.location.href = 'payment.html';
 }
 
 function showToast(msg) {
