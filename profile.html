@@ -1068,9 +1068,26 @@ html, body {
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── State ──
+// Always read the currently logged-in user's signup data as the source of truth
+const _signupUser = JSON.parse(localStorage.getItem('user') || 'null');
 let profile = JSON.parse(localStorage.getItem('hv_profile') || 'null') || {
-  name: 'ew', email: 's@gmail.com', dob: '2026-02-06', city: '', phone: ''
+  name:  (_signupUser && _signupUser.name)  || '',
+  email: (_signupUser && _signupUser.email) || '',
+  dob:   (_signupUser && _signupUser.dob)   || '',
+  city:  '',
+  phone: ''
 };
+// If cached profile belongs to a different user (email mismatch), reset it
+if (_signupUser && profile.email && profile.email !== _signupUser.email) {
+  profile = {
+    name:  _signupUser.name  || '',
+    email: _signupUser.email || '',
+    dob:   _signupUser.dob   || '',
+    city:  '',
+    phone: ''
+  };
+  localStorage.removeItem('hv_profile');
+}
 let addresses = JSON.parse(localStorage.getItem('hv_addresses') || '[]');
 let prefs = JSON.parse(localStorage.getItem('hv_prefs') || '["Non-Vegetarian"]');
 

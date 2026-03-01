@@ -389,6 +389,10 @@
       const password = document.getElementById('loginPassword').value;
       const stored   = JSON.parse(localStorage.getItem('user'));
       if (stored && stored.email === email && stored.password === password) {
+        // Clear any previous user's profile so the new user's data loads fresh
+        localStorage.removeItem('hv_profile');
+        localStorage.removeItem('hv_addresses');
+        localStorage.removeItem('hv_prefs');
         localStorage.setItem('loggedIn', 'true');
         showToast('✓ Logged in! Redirecting…');
         setTimeout(() => { window.location.href = 'home.html'; }, 1000);
