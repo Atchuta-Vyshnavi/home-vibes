@@ -1128,6 +1128,12 @@ function renderProfile() {
 
   renderAddresses();
   renderPrefs();
+  renderStats();
+}
+function renderStats() {
+  const stats = JSON.parse(localStorage.getItem('hv_stats') || '{"orders":0,"spent":0}');
+  document.getElementById('statOrders').textContent = stats.orders;
+  document.getElementById('statSpent').textContent  = '₹' + stats.spent.toFixed(2);
 }
 
 // ── Addresses ──

@@ -1058,11 +1058,25 @@ function processPayment() {
   spinner.style.display = 'block';
   btnText.textContent = 'Processing…';
 
+  // setTimeout(() => {
+  //   spinner.style.display = 'none';
+  //   btn.disabled = false;
+  //   btnText.textContent = `Pay ₹${total.toFixed(2)}`;
+  //   localStorage.removeItem('cart');
+  //   document.getElementById('successOverlay').classList.add('show');
+  // }, 2200);
   setTimeout(() => {
     spinner.style.display = 'none';
     btn.disabled = false;
     btnText.textContent = `Pay ₹${total.toFixed(2)}`;
-    localStorage.removeItem('cart');
+
+    // ── Update profile order stats ──
+    const stats = JSON.parse(localStorage.getItem('hv_stats') || '{"orders":0,"spent":0}');
+    stats.orders += 1;
+    stats.spent  += total;
+    localStorage.setItem('hv_stats', JSON.stringify(stats));
+
+    localStorage.removeItem(window._checkoutSource || 'cart');
     document.getElementById('successOverlay').classList.add('show');
   }, 2200);
 }
