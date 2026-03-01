@@ -267,8 +267,8 @@ html, body {
   background: rgba(232,97,74,0.06);
   color: var(--coral);
 }
-.method-tab .tab-icon { font-size: 20px; }
-
+/* .method-tab .tab-icon { font-size: 20px; } */
+.method-tab .tab-icon { width: 28px; height: 28px; display: block; margin: 0 auto 2px; object-fit: contain; border-radius: 4px; }
 /* ── UPI SECTION ── */
 .upi-apps {
   display: flex;
@@ -291,8 +291,8 @@ html, body {
   color: var(--stone);
 }
 .upi-app:hover, .upi-app.selected { border-color: var(--coral); background: rgba(232,97,74,0.06); color: var(--coral); }
-.upi-app .upi-logo { font-size: 22px; display: block; margin-bottom: 4px; }
-
+/* .upi-app .upi-logo { font-size: 22px; display: block; margin-bottom: 4px; } */
+.upi-app .upi-logo { width: 32px; height: 32px; display: block; margin: 0 auto 6px; object-fit: contain; border-radius: 6px; }
 /* ── COD SECTION ── */
 .cod-info {
   background: linear-gradient(135deg, rgba(39,174,96,0.08), rgba(39,174,96,0.04));
@@ -330,8 +330,8 @@ html, body {
   color: var(--stone);
 }
 .bank-item:hover, .bank-item.selected { border-color: var(--coral); background: rgba(232,97,74,0.06); color: var(--coral); }
-.bank-item .bank-logo { font-size: 20px; display: block; margin-bottom: 4px; }
-
+/* .bank-item .bank-logo { font-size: 20px; display: block; margin-bottom: 4px; } */
+.bank-item .bank-logo { width: 32px; height: 32px; display: block; margin: 0 auto 6px; object-fit: contain; border-radius: 6px; }
 /* ── ORDER SUMMARY CARD ── */
 .summary-card {
   background: var(--white);
@@ -714,22 +714,29 @@ html, body {
         <span class="step-title">Payment Method</span>
       </div>
 
-      <!-- Method Tabs -->
+<!-- Method Tabs -->
       <div class="method-tabs">
         <div class="method-tab active" onclick="switchMethod('card', this)">
-          <span class="tab-icon">💳</span>
+          <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+            <line x1="1" y1="10" x2="23" y2="10"/>
+          </svg>
           Card
         </div>
         <div class="method-tab" onclick="switchMethod('upi', this)">
-          <span class="tab-icon">📱</span>
+          <img class="tab-icon" src="https://www.google.com/s2/favicons?domain=npci.org.in&sz=64" alt="UPI">
           UPI
         </div>
         <div class="method-tab" onclick="switchMethod('netbanking', this)">
-          <span class="tab-icon">🏦</span>
+          <img class="tab-icon" src="https://www.google.com/s2/favicons?domain=onlinesbi.sbi&sz=64" alt="Net Banking">
           Net Banking
         </div>
         <div class="method-tab" onclick="switchMethod('cod', this)">
-          <span class="tab-icon">💵</span>
+          <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="6" width="20" height="12" rx="2"/>
+            <circle cx="12" cy="12" r="2"/>
+            <path d="M6 12h.01M18 12h.01"/>
+          </svg>
           Cash on Delivery
         </div>
       </div>
@@ -768,19 +775,19 @@ html, body {
         <div class="section-label">Choose UPI App</div>
         <div class="upi-apps">
           <div class="upi-app" onclick="selectUpi(this)">
-            <span class="upi-logo">📲</span>
+            <img class="upi-logo" src="https://www.google.com/s2/favicons?domain=pay.google.com&sz=64" alt="GPay">
             GPay
           </div>
           <div class="upi-app" onclick="selectUpi(this)">
-            <span class="upi-logo">💜</span>
+            <img class="upi-logo" src="https://www.google.com/s2/favicons?domain=phonepe.com&sz=64" alt="PhonePe">
             PhonePe
           </div>
           <div class="upi-app" onclick="selectUpi(this)">
-            <span class="upi-logo">🔵</span>
+            <img class="upi-logo" src="https://www.google.com/s2/favicons?domain=paytm.com&sz=64" alt="Paytm">
             Paytm
           </div>
           <div class="upi-app" onclick="selectUpi(this)">
-            <span class="upi-logo">🏦</span>
+            <img class="upi-logo" src="https://www.google.com/s2/favicons?domain=bhimupi.org.in&sz=64" alt="BHIM">
             BHIM
           </div>
         </div>
@@ -795,28 +802,28 @@ html, body {
         <div class="section-label">Select Your Bank</div>
         <div class="bank-grid">
           <div class="bank-item" onclick="selectBank(this)">
-            <span class="bank-logo">🏛️</span>SBI
+            <img class="bank-logo" src="https://www.google.com/s2/favicons?domain=sbi.co.in&sz=64" alt="SBI">SBI
           </div>
           <div class="bank-item" onclick="selectBank(this)">
-            <span class="bank-logo">🔵</span>HDFC
+            <img class="bank-logo" src="https://www.google.com/s2/favicons?domain=hdfcbank.com&sz=64" alt="HDFC">HDFC
           </div>
           <div class="bank-item" onclick="selectBank(this)">
-            <span class="bank-logo">🟠</span>ICICI
+            <img class="bank-logo" src="https://www.google.com/s2/favicons?domain=icicibank.com&sz=64" alt="ICICI">ICICI
           </div>
           <div class="bank-item" onclick="selectBank(this)">
-            <span class="bank-logo">🟡</span>Axis
+            <img class="bank-logo" src="https://www.google.com/s2/favicons?domain=axisbank.com&sz=64" alt="Axis">Axis
           </div>
           <div class="bank-item" onclick="selectBank(this)">
-            <span class="bank-logo">🟢</span>Kotak
+            <img class="bank-logo" src="https://www.google.com/s2/favicons?domain=kotak.com&sz=64" alt="Kotak">Kotak
           </div>
           <div class="bank-item" onclick="selectBank(this)">
-            <span class="bank-logo">🔴</span>BOB
+            <img class="bank-logo" src="https://www.google.com/s2/favicons?domain=bankofbaroda.in&sz=64" alt="BOB">BOB
           </div>
           <div class="bank-item" onclick="selectBank(this)">
-            <span class="bank-logo">🏦</span>PNB
+            <img class="bank-logo" src="https://www.google.com/s2/favicons?domain=netpnb.com&sz=64" alt="PNB">PNB
           </div>
           <div class="bank-item" onclick="selectBank(this)">
-            <span class="bank-logo">💙</span>Other
+            <span style="font-size:28px;display:block;text-align:center;margin-bottom:4px;">🏦</span>Other
           </div>
         </div>
         <div class="field">
@@ -835,10 +842,12 @@ html, body {
           </div>
         </div>
       </div>
+
     </div>
 
   </div>
 
+  <!-- RIGHT COLUMN: Order Summary -->
   <!-- RIGHT COLUMN: Order Summary -->
   <div class="summary-card">
     <div class="summary-top">
