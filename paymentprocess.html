@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HomeVibes - Payment</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #e7e1d9;
+}
+
+/* ===== SIMPLIFIED NAVBAR ===== */
+.navbar {
+  padding: 18px 40px;
+  background: white;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+/* ===== TOP GRADIENT BANNER ===== */
+.banner {
+  height: 120px;
+  background: linear-gradient(90deg, #1e1e1e, #2c2c2c, #3a1f1f);
+}
+
+/* ===== PAYMENT CARD ===== */
+.container {
+  max-width: 500px;
+  margin: -60px auto 40px auto;
+  background: #f8f5f0;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.section-title {
+  padding: 18px;
+  font-weight: bold;
+  font-size: 18px;
+  border-bottom: 1px solid #ddd;
+  background: #f0ebe5;
+}
+
+.option {
+  padding: 18px;
+  border-bottom: 1px solid #e5e0da;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.option-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.option img {
+  width: 28px;
+  height: 28px;
+}
+
+input[type="radio"] {
+  transform: scale(1.2);
+}
+
+.pay-btn {
+  background: #f4b400;
+  color: black;
+  font-weight: bold;
+  padding: 18px;
+  border: none;
+  width: 100%;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.pay-btn:hover {
+  background: #e0a800;
+}
+
+.success {
+  text-align: center;
+  padding: 18px;
+  font-weight: bold;
+  color: green;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Simple Navbar -->
+<div class="navbar">
+  HomeVibes
+</div>
+
+<!-- Dark Banner -->
+<div class="banner"></div>
+
+<!-- Payment Card -->
+<div class="container">
+
+  <div class="section-title">💳 UPI</div>
+
+  <label class="option">
+    <div class="option-left">
+      <input type="radio" name="payment" value="Paytm" checked>
+      <span>Paytm</span>
+    </div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Paytm_logo.png">
+  </label>
+
+  <label class="option">
+    <div class="option-left">
+      <input type="radio" name="payment" value="Google Pay">
+      <span>Google Pay</span>
+    </div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Google_Pay_Logo.svg">
+  </label>
+
+  <label class="option">
+    <div class="option-left">
+      <input type="radio" name="payment" value="PhonePe">
+      <span>PhonePe</span>
+    </div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/PhonePe_Logo.png">
+  </label>
+
+  <div class="section-title">💵 Cash on Delivery</div>
+
+  <label class="option">
+    <div class="option-left">
+      <input type="radio" name="payment" value="Cash on Delivery">
+      <span>Cash on Delivery</span>
+    </div>
+    <span>₹</span>
+  </label>
+
+  <button class="pay-btn" onclick="makePayment()">Pay</button>
+
+  <div id="result" class="success"></div>
+
+</div>
+
+<script>
+function makePayment() {
+  const selected = document.querySelector('input[name="payment"]:checked').value;
+
+  document.getElementById("result").innerText =
+    selected === "Cash on Delivery"
+      ? "Order Placed Successfully (Cash on Delivery) 🚚"
+      : "Payment Successful via " + selected + " ✅";
+}
+</script>
+
+</body>
+</html>
