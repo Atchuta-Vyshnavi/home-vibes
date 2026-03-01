@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HomeVibes | Login & Signup</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --coral: #E8614A;
+      --amber: #F5A623;
+      --cream: #FDF8F3;
+      --charcoal: #1C1C1E;
+      --stone: #6B6B6B;
+      --soft: #F0EBE3;
+      --white: #FFFFFF;
+      --shadow-lg: 0 20px 48px rgba(0,0,0,0.16);
+      --radius: 16px;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'DM Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* ── LEFT PANEL ── */
+    .left-panel {
+      background: linear-gradient(145deg, #1C1C1E 0%, #2D2D30 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 60px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    .left-panel::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, rgba(232,97,74,0.28) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .left-panel::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -40px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(245,166,35,0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 48px;
+      position: relative;
+      z-index: 1;
+    }
+    .brand-icon {
+      width: 42px; height: 42px;
+      background: linear-gradient(135deg, var(--coral), var(--amber));
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .brand-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .left-copy { position: relative; z-index: 1; }
+    .left-tag {
+      display: inline-block;
+      background: rgba(232,97,74,0.2);
+      color: #F5856A;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 50px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(232,97,74,0.3);
+    }
+    .left-copy h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(26px, 3vw, 40px);
+      font-weight: 900;
+      color: white;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+    .left-copy h2 span { color: var(--amber); }
+    .left-copy p {
+      color: rgba(255,255,255,0.5);
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 340px;
+    }
+
+    .features {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+    }
+    .feature-dot {
+      width: 8px; height: 8px;
+      background: var(--coral);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── RIGHT PANEL ── */
+    .right-panel {
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+    }
+
+    .card {
+      background: var(--white);
+      width: 100%;
+      max-width: 400px;
+      border-radius: 20px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    /* ── TABS ── */
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .tab-btn {
+      padding: 16px;
+      border: none;
+      background: var(--soft);
+      color: var(--stone);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      border-bottom: 2px solid transparent;
+    }
+    .tab-btn.active {
+      background: var(--white);
+      color: var(--charcoal);
+      border-bottom: 2px solid var(--coral);
+    }
+
+    /* ── FORM BODY ── */
+    .form-body {
+      padding: 32px 32px 28px;
+    }
+
+    .form-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin-bottom: 6px;
+    }
+    .form-sub {
+      font-size: 13.5px;
+      color: var(--stone);
+      margin-bottom: 26px;
+    }
+
+    form {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+    }
+    form.active { display: flex; }
+
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--charcoal);
+      letter-spacing: 0.2px;
+    }
+    .field input {
+      padding: 11px 14px;
+      border: 1.5px solid #E8E0D8;
+      border-radius: 10px;
+      background: var(--soft);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--charcoal);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .field input:focus {
+      border-color: var(--coral);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(232,97,74,0.1);
+    }
+    .field input::placeholder { color: #BBB; }
+
+    .submit-btn {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, var(--coral), #C94B35);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: opacity 0.2s, transform 0.15s;
+      letter-spacing: 0.2px;
+    }
+    .submit-btn:hover { opacity: 0.92; transform: translateY(-1px); }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: var(--charcoal);
+      color: white;
+      padding: 12px 22px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+      z-index: 9999;
+      white-space: nowrap;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 820px) {
+      body { grid-template-columns: 1fr; }
+      .left-panel { display: none; }
+      .right-panel { background: linear-gradient(135deg, #1C1C1E, #2D2D30); min-height: 100vh; }
+      .card { max-width: 420px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="8" y1="2" x2="8" y2="12"/><path d="M5 2v4a3 3 0 0 0 6 0V2"/><line x1="8" y1="12" x2="8" y2="22"/>
+        <line x1="16" y1="2" x2="16" y2="22"/>
+      </svg>
+      </div>
+      <span class="brand-name">HomeVibes</span>
+    </div>
+    <div class="left-copy">
+      <div class="left-tag">🏠 Homestyle Comfort Food</div>
+      <h2>Cook More,<br>Waste <span>Less</span></h2>
+      <p>Watch recipe videos and get exactly the right ingredients delivered — pre-measured and fresh.</p>
+    </div>
+    <div class="features">
+      <div class="feature-item"><span class="feature-dot"></span> Watch step-by-step recipe videos</div>
+      <div class="feature-item"><span class="feature-dot"></span> Pre-measured ingredient packs</div>
+      <div class="feature-item"><span class="feature-dot"></span> Zero food waste, exact portions</div>
+      <div class="feature-item"><span class="feature-dot"></span> Fresh delivery to your door</div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+    <div class="card">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('login', this)">Login</button>
+        <button class="tab-btn" onclick="showTab('signup', this)">Sign Up</button>
+      </div>
+
+      <div class="form-body">
+        <div id="formHeading">
+          <div class="form-title">Welcome back</div>
+          <div class="form-sub">Sign in to your HomeVibes account</div>
+        </div>
+
+        <!-- Login -->
+        <form id="login" class="active" onsubmit="return loginUser(event)">
+          <div class="field">
+            <label>Email</label>
+            <input type="email" id="loginEmail" placeholder="you@example.com" required />
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="password" id="loginPassword" placeholder="Enter your password" required />
+          </div>
+          <button class="submit-btn" type="submit">Login →</button>
+        </form>
+
+        <!-- Signup -->
+        <form id="signup" onsubmit="return registerUser(event)">
+          <div class="field">
+            <label>Full Name</label>
+            <input type="text" id="signupName" placeholder="Your name" required />
+          </div>
+          <div class="field">
+            <label>Date of Birth</label>
+            <input type="date" id="signupDob" required />
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input type="email" id="signupEmail" placeholder="you@example.com" required />
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="password" id="signupPassword" placeholder="Create a password" required />
+          </div>
+          <button class="submit-btn" type="submit">Create Account →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const headings = {
+      login:  { title: 'Welcome back',    sub: 'Sign in to your HomeVibes account' },
+      signup: { title: 'Create account',  sub: 'Join HomeVibes and start cooking' }
+    };
+
+    function showTab(tab, btn) {
+      document.querySelectorAll('form').forEach(f => f.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(tab).classList.add('active');
+      btn.classList.add('active');
+      document.querySelector('.form-title').textContent = headings[tab].title;
+      document.querySelector('.form-sub').textContent   = headings[tab].sub;
+    }
+
+    function registerUser(e) {
+      e.preventDefault();
+      const user = {
+        name:     document.getElementById('signupName').value,
+        dob:      document.getElementById('signupDob').value,
+        email:    document.getElementById('signupEmail').value,
+        password: document.getElementById('signupPassword').value
+      };
+      localStorage.setItem('user', JSON.stringify(user));
+      showToast('✓ Account created! Please log in.');
+      document.getElementById('signup').reset();
+      // Switch to login tab
+      document.querySelector('.tab-btn').click();
+    }
+
+    function loginUser(e) {
+      e.preventDefault();
+      const email    = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const stored   = JSON.parse(localStorage.getItem('user'));
+      if (stored && stored.email === email && stored.password === password) {
+        localStorage.setItem('loggedIn', 'true');
+        showToast('✓ Logged in! Redirecting…');
+        setTimeout(() => { window.location.href = 'home.html'; }, 1000);
+      } else {
+        showToast('✗ Invalid email or password.');
+      }
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+  </script>
+</body>
+</html>

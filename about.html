@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About — HomeVibes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --coral: #E8614A;
+  --amber: #F5A623;
+  --cream: #FDF8F3;
+  --charcoal: #1C1C1E;
+  --stone: #6B6B6B;
+  --soft: #F0EBE3;
+  --white: #FFFFFF;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.12);
+  --shadow-lg: 0 20px 48px rgba(0,0,0,0.16);
+  --radius: 16px;
+}
+
+html, body {
+  min-height: 100%;
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--charcoal);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAVBAR ── */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 72px;
+  background: var(--white);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  gap: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.logo-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--coral), var(--amber));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.logo-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--charcoal);
+  letter-spacing: -0.3px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-links a {
+  color: var(--stone);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
+}
+.nav-links a:hover { background: var(--soft); color: var(--charcoal); }
+.nav-links a.active { background: var(--soft); color: var(--charcoal); }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, #1C1C1E 0%, #2D2D30 100%);
+  padding: 52px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(232,97,74,0.3) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: -40px;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(245,166,35,0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-tag {
+  display: inline-block;
+  background: rgba(232,97,74,0.2);
+  color: #F5856A;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 50px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(232,97,74,0.3);
+}
+.hero h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 4vw, 46px);
+  font-weight: 900;
+  color: white;
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+.hero h2 span { color: var(--amber); }
+.hero p {
+  color: rgba(255,255,255,0.55);
+  font-size: 15px;
+  font-weight: 300;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* ── MAIN ── */
+.main {
+  max-width: 900px;
+  margin: 52px auto 72px;
+  padding: 0 24px;
+  animation: fadeUp 0.6s ease both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── INTRO BLOCK ── */
+.intro-block {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 40px 44px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.05);
+  margin-bottom: 28px;
+  line-height: 1.85;
+  font-size: 15.5px;
+  color: var(--stone);
+}
+.intro-block strong { color: var(--charcoal); font-weight: 600; }
+
+/* ── SECTION ── */
+.section {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 32px 44px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.05);
+  margin-bottom: 20px;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--charcoal);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title .dot {
+  width: 6px; height: 6px;
+  background: var(--coral);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.section p {
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--stone);
+}
+.section p strong { color: var(--charcoal); font-weight: 600; }
+
+/* ── STAKEHOLDERS GRID ── */
+.stakeholders {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 4px;
+}
+.stakeholder-card {
+  background: var(--soft);
+  border-radius: 12px;
+  padding: 18px 20px;
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.stakeholder-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+.stakeholder-card .s-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--coral);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+.stakeholder-card p {
+  font-size: 14px;
+  color: var(--stone);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── HIGHLIGHT ── */
+.highlight {
+  background: linear-gradient(135deg, rgba(232,97,74,0.08), rgba(245,166,35,0.08));
+  border-left: 4px solid var(--coral);
+  border-radius: 0 12px 12px 0;
+  padding: 16px 20px;
+  margin: 20px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--charcoal);
+}
+
+/* ── ADVANTAGES GRID ── */
+.advantages {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 4px;
+}
+.adv-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--soft);
+  border-radius: 12px;
+  padding: 16px 18px;
+  border: 1px solid rgba(0,0,0,0.05);
+  font-size: 14px;
+  color: var(--stone);
+  line-height: 1.5;
+  transition: transform 0.2s;
+}
+.adv-item:hover { transform: translateY(-2px); }
+.adv-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── BACK BTN ── */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--charcoal);
+  color: white;
+  text-decoration: none;
+  padding: 11px 22px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 28px;
+  transition: background 0.2s, transform 0.15s;
+}
+.back-btn:hover { background: var(--coral); transform: translateY(-1px); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .navbar { padding: 0 20px; }
+  .hero { padding: 36px 20px; }
+  .main { margin: 32px auto 48px; padding: 0 16px; }
+  .intro-block, .section { padding: 24px 22px; }
+  .stakeholders, .advantages { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a class="logo" href="home.html">
+    <div class="logo-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="8" y1="2" x2="8" y2="12"/><path d="M5 2v4a3 3 0 0 0 6 0V2"/><line x1="8" y1="12" x2="8" y2="22"/>
+        <line x1="16" y1="2" x2="16" y2="22"/>
+      </svg>
+    </div>
+    <span class="logo-text">HomeVibes</span>
+  </a>
+  <div class="nav-links">
+    <a href="home.html">Home</a>
+    <a href="about.html" class="active">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="profile.html">Profile</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">🌿 Our Story</div>
+  <h2>Cooking Made <span>Simple</span>,<br>Ingredients Made Fresh</h2>
+  <p>Watch, cook, and order — all from one place. HomeVibes brings the kitchen experience to you.</p>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- Intro -->
+  <div class="intro-block">
+    <strong>HomeVibes</strong> is an innovative web application that allows customers to watch recipe videos and purchase ingredient packs for the selected dishes — all from a single platform. It aims to simplify the cooking experience by connecting users directly with fresh ingredients and interactive tutorials.
+  </div>
+
+  <!-- Vision -->
+  <div class="section">
+    <div class="section-title"><span class="dot"></span> Our Vision</div>
+    <p>
+      HomeVibes addresses the gap between existing food delivery systems and ingredient marketplaces. The platform offers a unified experience for users to order prepared meals, buy raw ingredients, and access step-by-step cooking tutorials. By letting users scale servings and instantly purchase pre-measured packs, the platform benefits busy individuals, beginners, and food enthusiasts alike.
+    </p>
+  </div>
+
+  <!-- How It Works -->
+  <div class="section">
+    <div class="section-title"><span class="dot"></span> How It Works</div>
+    <p>
+      Each recipe video on HomeVibes comes with a detailed description and ingredient list. When users choose to purchase ingredients, the system automatically calculates the required quantities based on the number of servings selected. When the video says "use half a lemon," HomeVibes delivers the <strong>whole lemon</strong> — ensuring users receive all essential ingredients in fresh and complete form. Customers just follow the chef's instructions to prepare the dish perfectly.
+    </p>
+  </div>
+
+  <!-- Stakeholders -->
+  <div class="section">
+    <div class="section-title"><span class="dot"></span> Benefits to Stakeholders</div>
+    <div class="stakeholders">
+      <div class="stakeholder-card">
+        <div class="s-label">Customers</div>
+        <p>Enjoy convenience, accurate ingredient portions, and fresh deliveries right at their doorstep.</p>
+      </div>
+      <div class="stakeholder-card">
+        <div class="s-label">Restaurants & Chefs</div>
+        <p>Reach a wider audience by showcasing recipes and cooking videos on the platform.</p>
+      </div>
+      <div class="stakeholder-card">
+        <div class="s-label">Suppliers</div>
+        <p>Access direct consumer channels for efficient and streamlined distribution.</p>
+      </div>
+      <div class="stakeholder-card">
+        <div class="s-label">Delivery Agents</div>
+        <p>Benefit from optimized delivery routes and real-time order management tools.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mission -->
+  <div class="section">
+    <div class="section-title"><span class="dot"></span> Our Mission</div>
+    <p>
+      HomeVibes's mission is to make cooking accessible, enjoyable, and time-efficient. Through secure cloud-based backend services, scalable ingredient packs, and integrated payment systems, HomeVibes combines technology with the art of cooking to build a smarter, tastier world.
+    </p>
+  </div>
+
+  <!-- Core Advantages -->
+  <div class="section">
+    <div class="section-title"><span class="dot"></span> Core Advantages</div>
+
+    <div class="highlight">
+      ✅ We provide every ingredient with the exact quantity according to the servings you select.
+    </div>
+
+    <div class="advantages">
+      <div class="adv-item">
+        <span class="adv-icon">💡</span>
+        <span>Unified food discovery and ingredient ordering platform.</span>
+      </div>
+      <div class="adv-item">
+        <span class="adv-icon">⏱️</span>
+        <span>Time-saving pre-measured ingredient packs.</span>
+      </div>
+      <div class="adv-item">
+        <span class="adv-icon">💰</span>
+        <span>Cost-efficient and waste-reducing portioning.</span>
+      </div>
+      <div class="adv-item">
+        <span class="adv-icon">⭐</span>
+        <span>Community ratings and feedback for quality assurance.</span>
+      </div>
+      <div class="adv-item">
+        <span class="adv-icon">🔒</span>
+        <span>Secure payment and cloud integration.</span>
+      </div>
+      <div class="adv-item">
+        <span class="adv-icon">🚀</span>
+        <span>Scalable platform built for growth and reliability.</span>
+      </div>
+    </div>
+  </div>
+
+  <a href="home.html" class="back-btn">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+      <path d="M19 12H5M12 5l-7 7 7 7"/>
+    </svg>
+    Back to Home
+  </a>
+
+</main>
+
+</body>
+</html>

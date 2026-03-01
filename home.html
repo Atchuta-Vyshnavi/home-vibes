@@ -1,0 +1,998 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HomeVibes — Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --coral: #E8614A;
+  --amber: #F5A623;
+  --cream: #FDF8F3;
+  --charcoal: #1C1C1E;
+  --stone: #6B6B6B;
+  --soft: #F0EBE3;
+  --white: #FFFFFF;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.12);
+  --shadow-lg: 0 20px 48px rgba(0,0,0,0.16);
+  --radius: 16px;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--charcoal);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAVBAR ── */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 72px;
+  background: var(--white);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  gap: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.logo-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--coral), var(--amber));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.logo-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--charcoal);
+  letter-spacing: -0.3px;
+}
+
+.search-wrap {
+  flex: 1;
+  max-width: 420px;
+  position: relative;
+}
+.search-wrap svg {
+  position: absolute;
+  left: 14px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--stone);
+  pointer-events: none;
+}
+.search-wrap input {
+  width: 100%;
+  padding: 10px 14px 10px 42px;
+  border-radius: 50px;
+  border: 1.5px solid #E8E0D8;
+  background: var(--soft);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--charcoal);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.search-wrap input:focus {
+  border-color: var(--coral);
+  box-shadow: 0 0 0 3px rgba(232,97,74,0.12);
+  background: var(--white);
+}
+.search-wrap input::placeholder { color: #AAA; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.nav-links a {
+  color: var(--stone);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
+}
+.nav-links a:hover, .nav-links a.active {
+  background: var(--soft);
+  color: var(--charcoal);
+}
+
+.cart-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--coral);
+  color: white;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 50px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  flex-shrink: 0;
+}
+.cart-btn:hover { background: #D4503B; transform: translateY(-1px); }
+.cart-badge {
+  background: white;
+  color: var(--coral);
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 50px;
+  padding: 1px 7px;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* ── HERO SECTION ── */
+.hero {
+  background: linear-gradient(135deg, #1C1C1E 0%, #2D2D30 100%);
+  padding: 52px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(232,97,74,0.3) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: -40px;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(245,166,35,0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-tag {
+  display: inline-block;
+  background: rgba(232,97,74,0.2);
+  color: #F5856A;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 50px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(232,97,74,0.3);
+}
+.hero h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 900;
+  color: white;
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+.hero h2 span { color: var(--amber); }
+.hero p {
+  color: rgba(255,255,255,0.55);
+  font-size: 15px;
+  font-weight: 300;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ── GALLERY ── */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 36px 40px 20px;
+}
+.section-header h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--charcoal);
+}
+.section-header span {
+  font-size: 13px;
+  color: var(--stone);
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 0 40px 60px;
+}
+
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-img-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.card img {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  cursor: pointer;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.card:hover img { transform: scale(1.04); }
+
+.play-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+  cursor: pointer;
+}
+.card:hover .play-overlay { background: rgba(0,0,0,0.28); }
+.play-icon {
+  width: 44px; height: 44px;
+  background: white;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.3s, transform 0.3s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.card:hover .play-icon { opacity: 1; transform: scale(1); }
+.play-icon svg { color: var(--coral); margin-left: 2px; }
+
+.card-body {
+  padding: 16px 18px 18px;
+}
+.card-body h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 4px;
+  letter-spacing: -0.2px;
+}
+.card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+.price {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--coral);
+  letter-spacing: -0.3px;
+}
+.add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--charcoal);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.add-btn:hover { background: var(--coral); transform: scale(1.03); }
+.add-btn svg { flex-shrink: 0; }
+
+/* ── SIDECART ── */
+.overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 1099;
+  backdrop-filter: blur(2px);
+}
+.overlay.active { display: block; }
+
+.sidecart {
+  position: fixed;
+  top: 0; right: -420px;
+  width: 390px;
+  height: 100vh;
+  background: var(--white);
+  box-shadow: var(--shadow-lg);
+  transition: right 0.35s cubic-bezier(0.4,0,0.2,1);
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+}
+.sidecart.open { right: 0; }
+
+.cart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 24px 20px;
+  border-bottom: 1px solid #F0EBE3;
+}
+.cart-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+.cart-close {
+  width: 32px; height: 32px;
+  background: var(--soft);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--stone);
+  font-size: 16px;
+  transition: background 0.2s;
+}
+.cart-close:hover { background: #E8E0D8; color: var(--charcoal); }
+
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 24px;
+}
+.cart-empty {
+  text-align: center;
+  padding: 60px 0;
+  color: var(--stone);
+}
+.cart-empty svg { margin-bottom: 12px; opacity: 0.4; }
+.cart-empty p { font-size: 14px; }
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #F5F0EA;
+  animation: slideIn 0.25s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.cart-item img {
+  width: 56px; height: 56px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.cart-details { flex: 1; min-width: 0; }
+.cart-details h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--charcoal);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cart-details .item-price {
+  font-size: 13px;
+  color: var(--coral);
+  font-weight: 600;
+  margin-top: 2px;
+}
+.qty-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+.qty-btn {
+  width: 24px; height: 24px;
+  background: var(--soft);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--charcoal);
+  transition: background 0.15s;
+}
+.qty-btn:hover { background: var(--coral); color: white; }
+.qty-num { font-size: 14px; font-weight: 600; min-width: 16px; text-align: center; }
+.remove-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #CCC;
+  padding: 4px;
+  border-radius: 6px;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+.remove-btn:hover { color: #E55; }
+
+.cart-footer {
+  padding: 20px 24px;
+  border-top: 1px solid #F0EBE3;
+  background: var(--cream);
+}
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.total-row span { font-size: 14px; color: var(--stone); }
+.total-row strong { font-size: 22px; font-weight: 700; color: var(--charcoal); }
+.checkout-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--coral), #C94B35);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  letter-spacing: 0.2px;
+}
+.checkout-btn:hover { opacity: 0.92; transform: translateY(-1px); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .navbar { padding: 0 20px; }
+  .hero { padding: 36px 20px; }
+  .section-header { padding: 28px 20px 16px; }
+  .gallery { padding: 0 20px 40px; gap: 16px; }
+}
+@media (max-width: 600px) {
+  .nav-links { display: none; }
+  .hero h2 { font-size: 26px; }
+  .sidecart { width: 100%; right: -100%; }
+  .gallery { grid-template-columns: 1fr; }
+  .search-wrap { max-width: 180px; }
+}
+
+/* Scrollbar */
+.cart-items::-webkit-scrollbar { width: 4px; }
+.cart-items::-webkit-scrollbar-track { background: transparent; }
+.cart-items::-webkit-scrollbar-thumb { background: #DDD; border-radius: 4px; }
+.cart-empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--stone);
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.75); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.cart-empty .empty-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 12px;
+  animation: bounce 1.8s ease-in-out infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+.cart-empty h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--charcoal);
+  margin-bottom: 6px;
+}
+.cart-empty p {
+  font-size: 13px;
+  color: var(--stone);
+  line-height: 1.6;
+}
+</style>
+</head>
+<body>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="toggleCart()"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a class="logo" href="#">
+    <div class="logo-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="8" y1="2" x2="8" y2="12"/><path d="M5 2v4a3 3 0 0 0 6 0V2"/><line x1="8" y1="12" x2="8" y2="22"/>
+        <line x1="16" y1="2" x2="16" y2="22"/>
+      </svg>
+    </div>
+    <span class="logo-text">HomeVibes</span>
+  </a>
+
+  <div class="search-wrap">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+    </svg>
+    <input type="text" id="searchInput" placeholder="Search dishes…" oninput="filterDishes()">
+  </div>
+
+  <div class="nav-links">
+    <a href="#" class="active">Home</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="profile.html">Profile</a>
+  </div>
+
+  <button class="cart-btn" onclick="toggleCart()">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+      <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/>
+      <path d="M16 10a4 4 0 0 1-8 0"/>
+    </svg>
+    Cart
+    <span class="cart-badge" id="cartCount">0</span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">🏠 Homestyle Comfort Food</div>
+  <h2>Tastes Like <span>Home</span>,<br>Delivered Fresh</h2>
+  <p>Handcrafted recipes with real ingredients — click any dish to watch it being made.</p>
+</div>
+
+<!-- SECTION HEADER -->
+<div class="section-header">
+  <h3>Our Menu</h3>
+  <span id="dishCount">11 dishes available</span>
+</div>
+
+<!-- GALLERY -->
+<div class="gallery" id="gallery">
+
+  <div class="card">
+    <div class="card-img-wrap">
+      <img src="thumbnails/chocolatemilkshake.jpg" alt="Chocolate Milkshake">
+      <div class="play-overlay" onclick="openVideo('videos/chocolatemilkshake.mp4','Chocolate Milkshake')">
+        <div class="play-icon">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Chocolate Milkshake</h3>
+      <div class="card-meta">
+        <div class="price">₹134</div>
+        <button class="add-btn" onclick="addToCart('Chocolate Milkshake',134.00,'thumbnails/chocolatemilkshake.jpg',event)">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-img-wrap">
+      <img src="thumbnails/chickenbiryani.jpg" alt="Chicken Biryani">
+      <div class="play-overlay" onclick="openVideo('videos/chickenbiryani.mp4','Chicken Biryani')">
+        <div class="play-icon">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Chicken Biryani</h3>
+      <div class="card-meta">
+        <div class="price">₹266</div>
+        <button class="add-btn" onclick="addToCart('Chicken Biryani',266.00,'thumbnails/chickenbiryani.jpg',event)">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-img-wrap">
+      <img src="thumbnails/chickenmanchuriya.jpg" alt="Chicken Manchuriya">
+      <div class="play-overlay" onclick="openVideo('videos/chickenmanchurya.mp4','Chicken Manchuriya')">
+        <div class="play-icon">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Chicken Manchuriya</h3>
+      <div class="card-meta">
+        <div class="price">₹156</div>
+        <button class="add-btn" onclick="addToCart('Chicken Manchuriya',156.00,'thumbnails/chickenmanchuriya.jpg',event)">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-img-wrap">
+      <img src="thumbnails/eggfriedrice.jpg" alt="Egg Fried Rice">
+      <div class="play-overlay" onclick="openVideo('videos/eggfriedrice.mp4','Egg Fried Rice')">
+        <div class="play-icon">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Egg Fried Rice</h3>
+      <div class="card-meta">
+        <div class="price">₹87.50</div>
+        <button class="add-btn" onclick="addToCart('Egg Fried Rice',87.50,'thumbnails/eggfriedrice.jpg',event)">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-img-wrap">
+      <img src="thumbnails/friedmomos.jpg" alt="Fried Veg Momos">
+      <div class="play-overlay" onclick="openVideo('videos/friedmomos.mp4','Fried Veg Momos')">
+        <div class="play-icon">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Fried Veg Momos</h3>
+      <div class="card-meta">
+        <div class="price">₹80</div>
+        <button class="add-btn" onclick="addToCart('Fried Veg Momos',80.00,'thumbnails/friedmomos.jpg',event)">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-img-wrap">
+      <img src="thumbnails/pannerbuttermasala.jpg" alt="Paneer Butter Masala">
+      <div class="play-overlay" onclick="openVideo('videos/paneerbuttermasala.mp4','Paneer Butter Masala')">
+        <div class="play-icon">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Paneer Butter Masala</h3>
+      <div class="card-meta">
+        <div class="price">₹248</div>
+        <button class="add-btn" onclick="addToCart('Paneer Butter Masala',248.00,'thumbnails/pannerbuttermasala.jpg',event)">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-img-wrap">
+      <img src="thumbnails/pannertikka.jpg" alt="Paneer Tikka">
+      <div class="play-overlay" onclick="openVideo('videos/pannertikka.mp4','Paneer Tikka')">
+        <div class="play-icon">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Paneer Tikka</h3>
+      <div class="card-meta">
+        <div class="price">₹201</div>
+        <button class="add-btn" onclick="addToCart('Paneer Tikka',201.00,'thumbnails/pannertikka.jpg',event)">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-img-wrap">
+      <img src="thumbnails/chesesepizza.jpg" alt="Cheese Pizza">
+      <div class="play-overlay" onclick="openVideo('videos/pizza.mp4','Cheese Pizza')">
+        <div class="play-icon">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Cheese Pizza</h3>
+      <div class="card-meta">
+        <div class="price">₹297.50</div>
+        <button class="add-btn" onclick="addToCart('Cheese Pizza',297.50,'thumbnails/chesesepizza.jpg',event)">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-img-wrap">
+      <img src="thumbnails/strretmaggie.jpg" alt="Street Maggie">
+      <div class="play-overlay" onclick="openVideo('videos/strretmaggie.mp4','Street Maggie')">
+        <div class="play-icon">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Street Maggie</h3>
+      <div class="card-meta">
+        <div class="price">₹53</div>
+        <button class="add-btn" onclick="addToCart('Street Maggie',53.00,'thumbnails/strretmaggie.jpg',event)">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-img-wrap">
+      <img src="thumbnails/vegnoodles.jpg" alt="Veg Noodles">
+      <div class="play-overlay" onclick="openVideo('videos/vegnoodles.mp4','Veg Noodles')">
+        <div class="play-icon">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Veg Noodles</h3>
+      <div class="card-meta">
+        <div class="price">₹88</div>
+        <button class="add-btn" onclick="addToCart('Veg Noodles',88.00,'thumbnails/vegnoodles.jpg',event)">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-img-wrap">
+      <img src="thumbnails/tandooriroti.jpg" alt="Tandoori Roti">
+      <div class="play-overlay" onclick="openVideo('videos/thandooriroti.mp4','Tandoori Roti')">
+        <div class="play-icon">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Tandoori Roti</h3>
+      <div class="card-meta">
+        <div class="price">₹45.25</div>
+        <button class="add-btn" onclick="addToCart('Tandoori Roti',45.25,'thumbnails/tandooriroti.jpg',event)">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SIDECART -->
+<div id="sidecart" class="sidecart">
+  <div class="cart-header">
+    <h2>Your Cart</h2>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <!-- <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+      <p>Your cart is empty</p>
+    </div>
+  </div> -->
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <span class="empty-icon">🛒</span>
+      <h4>Your cart is empty!</h4>
+      <p>Looks like you haven't added<br>anything yet. Go pick something<br>delicious! 🍽️</p>
+    </div>
+  </div>
+  <!-- <div class="cart-footer">
+    <div class="total-row">
+      <span>Total</span>
+      <strong id="cartTotal">₹0</strong>
+    </div>
+    <button class="checkout-btn" onclick="checkout()">Proceed to Checkout →</button>
+  </div>
+</div> -->
+<div class="cart-footer">
+  <div class="total-row">
+    <span>Subtotal</span>
+    <strong id="cartSubtotal">₹0</strong>
+  </div>
+  <div class="total-row" style="margin-bottom:8px;">
+    <span>Delivery</span>
+    <strong id="cartDelivery" style="font-size:16px;">₹40</strong>
+  </div>
+  <div style="height:1px;background:var(--soft);margin-bottom:12px;"></div>
+  <div class="total-row">
+    <span style="font-weight:700;color:var(--charcoal);">Total</span>
+    <strong id="cartTotal" style="color:var(--coral);">₹0</strong>
+  </div>
+  <button class="checkout-btn" onclick="checkout()">Proceed to Checkout →</button>
+</div>
+
+<script>
+function openVideo(src, title) {
+  window.location.href = `playe.html?src=${encodeURIComponent(src)}&title=${encodeURIComponent(title)}`;
+}
+
+function toggleCart() {
+  document.getElementById('sidecart').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('active');
+  renderCart();
+}
+
+function addToCart(title, price, img, e) {
+  e.stopPropagation();
+  let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const item = cart.find(i => i.title === title);
+  if (item) item.qty++;
+  else cart.push({ title, price, img, qty: 1 });
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCount();
+  // Flash button feedback
+  const btn = e.currentTarget;
+  btn.style.background = 'var(--coral)';
+  btn.textContent = '✓ Added';
+  setTimeout(() => {
+    btn.style.background = '';
+    btn.innerHTML = `<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Add`;
+  }, 900);
+}
+
+function updateQty(index, change) {
+  let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  if (!cart[index]) return;
+  cart[index].qty += change;
+  if (cart[index].qty <= 0) cart.splice(index, 1);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  renderCart();
+}
+
+function removeItem(index) {
+  let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  cart.splice(index, 1);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  renderCart();
+}
+
+function renderCart() {
+  const items = JSON.parse(localStorage.getItem('cart') || '[]');
+  const container = document.getElementById('cartItems');
+  let total = 0, totalQty = 0;
+
+  if (items.length === 0) {
+    // container.innerHTML = `<div class="cart-empty">
+    //   <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+    //     <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/>
+    //     <path d="M16 10a4 4 0 0 1-8 0"/>
+    //   </svg>
+    //   <p>Your cart is empty</p>
+    // </div>`;
+    container.innerHTML = `<div class="cart-empty">
+  <span class="empty-icon">🛒</span>
+  <h4>Your cart is empty!</h4>
+  <p>Looks like you haven't added<br>anything yet. Go pick something<br>delicious! 🍽️</p>
+</div>`;
+  } else {
+    container.innerHTML = items.map((it, i) => {
+      total += it.price * it.qty;
+      totalQty += it.qty;
+      return `<div class="cart-item">
+        <img src="${it.img}" alt="${it.title}">
+        <div class="cart-details">
+          <h4>${it.title}</h4>
+          <div class="item-price">₹${(it.price * it.qty).toFixed(2)}</div>
+          <div class="qty-row">
+            <button class="qty-btn" onclick="updateQty(${i},-1)">−</button>
+            <span class="qty-num">${it.qty}</span>
+            <button class="qty-btn" onclick="updateQty(${i},1)">+</button>
+          </div>
+        </div>
+        <button class="remove-btn" onclick="removeItem(${i})">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/>
+            <path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/>
+          </svg>
+        </button>
+      </div>`;
+    }).join('');
+  }
+
+  // document.getElementById('cartTotal').textContent = '₹' + total.toFixed(2);
+  // updateCount();
+  const delivery = total > 0 ? 40 : 0;
+  document.getElementById('cartSubtotal').textContent = '₹' + total.toFixed(2);
+  document.getElementById('cartDelivery').textContent = '₹' + delivery.toFixed(2);
+  document.getElementById('cartTotal').textContent = '₹' + (total + delivery).toFixed(2);
+  updateCount();
+}
+
+// function updateCount() {
+//   const items = JSON.parse(localStorage.getItem('cart') || '[]');
+//   const n = items.reduce((s, i) => s + i.qty, 0);
+//   document.getElementById('cartCount').textContent = n;
+// }
+function updateCount() {
+  const items = JSON.parse(localStorage.getItem('cart') || '[]');
+  const n = items.reduce((s, i) => s + i.qty, 0);
+  document.getElementById('cartCount').textContent = n;
+}
+function checkout() {
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  if (cart.length === 0) { alert('Your cart is empty!'); return; }
+  alert('Thank you for your order! (Demo)');
+  localStorage.removeItem('cart');
+  renderCart();
+  toggleCart();
+}
+
+function filterDishes() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const cards = document.querySelectorAll('.gallery .card');
+  let visible = 0;
+  cards.forEach(card => {
+    const name = card.querySelector('h3').textContent.toLowerCase();
+    const show = name.includes(q);
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  document.getElementById('dishCount').textContent = visible + ' dish' + (visible !== 1 ? 'es' : '') + ' available';
+}
+
+window.onload = updateCount;
+</script>
+</body>
+</html>
