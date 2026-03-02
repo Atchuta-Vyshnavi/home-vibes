@@ -640,9 +640,26 @@ function formatQty(val) {
   return Number.isInteger(val) ? val : parseFloat(val.toFixed(2));
 }
 
+function getStep(val, unit) {
+  // For gram/ml units, use larger steps at higher quantities
+  const bigUnit = ['g','ml'].includes(unit.toLowerCase());
+  if (bigUnit) {
+    if (val >= 500) return 100;
+    if (val >= 100) return 50;
+    if (val >= 20)  return 10;
+    return 5;
+  }
+  // For count/spoon/cup units
+  if (val >= 20) return 5;
+  if (val >= 10) return 2;
+  if (val >= 2)  return 1;
+  return 0.25;
+}
+
 function changeIngQty(idx, delta) {
-  const step = currentQtys[idx] < 2 ? 0.25 : 1;
-  currentQtys[idx] = Math.max(0, currentQtys[idx] + delta * step);
+  const unit = dish.ingredients[idx].unit;
+  const step = getStep(currentQtys[idx], unit);
+  currentQtys[idx] = Math.max(0, parseFloat((currentQtys[idx] + delta * step).toFixed(2)));
   document.getElementById(`iqty-${idx}`).textContent = formatQty(currentQtys[idx]);
   document.getElementById(`icost-${idx}`).textContent = `₹${(currentQtys[idx] * dish.ingredients[idx].costPerUnit).toFixed(2)}`;
   renderCostSummary();
@@ -731,7 +748,13 @@ function addToCart() {
 function buyNow() {
   if (!dish) return;
   const total = getTotal();
-  localStorage.setItem('order', JSON.stringify([{ title, img: dish.thumb, price: total, qty: 1 }]));
+  const snapshot = dish.ingredients.map((ing, idx) => ({
+    name: ing.name, qty: formatQty(currentQtys[idx]), unit: ing.unit,
+    cost: parseFloat((currentQtys[idx] * ing.costPerUnit).toFixed(2))
+  })).filter(i => i.qty > 0);
+  // Save to separate buyNow key — does NOT touch the cart
+  localStorage.setItem('hv_buyNow', JSON.stringify([{ title, img: dish.thumb, price: total, qty: 1, ingredients: snapshot }]));
+  localStorage.setItem('hv_checkoutSource', 'buyNow');
   window.location.href = 'payment.html';
 }
 

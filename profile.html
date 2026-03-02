@@ -1091,10 +1091,22 @@ if (_signupUser && profile.email && profile.email !== _signupUser.email) {
 let addresses = JSON.parse(localStorage.getItem('hv_addresses') || '[]');
 let prefs = JSON.parse(localStorage.getItem('hv_prefs') || '["Non-Vegetarian"]');
 
+function getUserKey() {
+  const email = localStorage.getItem('currentUserEmail') || '';
+  return email.replace(/[^a-z0-9]/g, '_');
+}
+
 function saveState() {
   localStorage.setItem('hv_profile',   JSON.stringify(profile));
   localStorage.setItem('hv_addresses', JSON.stringify(addresses));
   localStorage.setItem('hv_prefs',     JSON.stringify(prefs));
+  // Also persist to per-user keys so data survives logout/login cycles
+  const k = getUserKey();
+  if (k) {
+    localStorage.setItem(`hv_profile_${k}`,   JSON.stringify(profile));
+    localStorage.setItem(`hv_addresses_${k}`, JSON.stringify(addresses));
+    localStorage.setItem(`hv_prefs_${k}`,     JSON.stringify(prefs));
+  }
 }
 
 // ── Render Profile ──
@@ -1283,6 +1295,16 @@ function saveProfile() {
 
 // ── Logout ──
 function handleLogout() {
+  // Clear all session and cart data on logout
+  localStorage.removeItem('loggedIn');
+  localStorage.removeItem('cart');
+  localStorage.removeItem('order');
+  localStorage.removeItem('paymentMethod');
+  localStorage.removeItem('hv_profile');
+  localStorage.removeItem('hv_addresses');
+  localStorage.removeItem('hv_prefs');
+  localStorage.removeItem('hv_stats');
+  localStorage.removeItem('orderHistory');
   showToast('Signing out…');
   setTimeout(() => window.location.href = 'index.html', 1200);
 }

@@ -487,6 +487,7 @@ function removeItem(i) {
 function checkout() {
   const cart = JSON.parse(localStorage.getItem('cart') || '[]');
   if (cart.length === 0) { showToast('🛒 Your cart is empty!'); return; }
+  localStorage.setItem('hv_checkoutSource', 'cart');
   window.location.href = 'payment.html';
 }
 

@@ -619,11 +619,11 @@ html, body {
     </div>
     <span class="logo-text">HomeVibes</span>
   </div>
-  <a href="cart.html" class="nav-btn">
+  <a href="#" class="nav-btn" id="backBtn" onclick="goBack(); return false;">
     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
       <path d="M19 12H5M12 5l-7 7 7 7"/>
     </svg>
-    Back to Cart
+    <span id="backBtnLabel">Back to Cart</span>
   </a>
 </nav>
 
@@ -840,7 +840,7 @@ html, body {
           <div class="cod-icon">💵</div>
           <div>
             <h4>Pay when your order arrives</h4>
-            <p>Keep exact change ready. Our delivery partner will collect the amount at your doorstep. Additional ₹20 COD handling fee applies.</p>
+            <p>Keep exact change ready. Our delivery partner will collect the amount at your doorstep. Additional ₹10 COD handling fee applies.</p>
           </div>
         </div>
       </div>
@@ -923,9 +923,20 @@ let currentMethod = 'card';
 let subtotal = 0;
 let total = 0;
 
+// ── CHECKOUT SOURCE ──
+// Determines whether payment is for a direct "Proceed" from playe.html (buyNow)
+// or from the cart. Using hv_checkoutSource survives page navigation (unlike window vars).
+function getCheckoutCart() {
+  const source = localStorage.getItem('hv_checkoutSource');
+  if (source === 'buyNow') {
+    return { items: JSON.parse(localStorage.getItem('hv_buyNow') || '[]'), source: 'buyNow' };
+  }
+  return { items: JSON.parse(localStorage.getItem('cart') || '[]'), source: 'cart' };
+}
+
 // ── LOAD CART ──
 function loadSummary() {
-  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const { items: cart } = getCheckoutCart();
   const container = document.getElementById('summaryItems');
 
   if (cart.length === 0) {
@@ -956,8 +967,8 @@ function loadSummary() {
 }
 
 function updateTotal() {
-  const delivery = 40;
-  const cod = currentMethod === 'cod' ? 20 : 0;
+  const delivery = 20;
+  const cod = currentMethod === 'cod' ? 10 : 0;
   total = subtotal + delivery + cod;
   document.getElementById('subtotalVal').textContent = subtotal.toFixed(2);
   document.getElementById('totalVal').textContent = total.toFixed(2);
@@ -1060,51 +1071,55 @@ function processPayment() {
   spinner.style.display = 'block';
   btnText.textContent = 'Processing…';
 
-  // setTimeout(() => {
-  //   spinner.style.display = 'none';
-  //   btn.disabled = false;
-  //   btnText.textContent = `Pay ₹${total.toFixed(2)}`;
-  //   localStorage.removeItem('cart');
-  //   document.getElementById('successOverlay').classList.add('show');
-  // }, 2200);
   setTimeout(() => {
     spinner.style.display = 'none';
     btn.disabled = false;
     btnText.textContent = `Pay ₹${total.toFixed(2)}`;
 
     // ── Update profile order stats ──
-    /*const stats = JSON.parse(localStorage.getItem('hv_stats') || '{"orders":0,"spent":0}');
+    const stats = JSON.parse(localStorage.getItem('hv_stats') || '{"orders":0,"spent":0}');
     stats.orders += 1;
     stats.spent  += total;
     localStorage.setItem('hv_stats', JSON.stringify(stats));
+    // Persist per-user
+    const _uk = (localStorage.getItem('currentUserEmail') || '').replace(/[^a-z0-9]/g, '_');
+    if (_uk) localStorage.setItem(`hv_stats_${_uk}`, JSON.stringify(stats));
 
-    localStorage.removeItem(window._checkoutSource || 'cart');*/
-    const stats = JSON.parse(localStorage.getItem('hv_stats') || '{"orders":0,"spent":0}');
-stats.orders += 1;
-stats.spent  += total;
-localStorage.setItem('hv_stats', JSON.stringify(stats));
+    // ── Save payment method so buynow.html can show correct delivery charge ──
+    localStorage.setItem('paymentMethod', currentMethod);
 
-// ── Save order to history for profile page ──
-const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-if (cart.length > 0) {
-  const history = JSON.parse(localStorage.getItem('orderHistory') || '[]');
-  cart.forEach(item => {
-    history.unshift({
-      img:   item.img,
-      title: item.title,
-      qty:   item.qty,
-      total: (item.price * item.qty + 40).toFixed(2),
-      date:  new Date().toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'})
-    });
-  });
-  localStorage.setItem('orderHistory', JSON.stringify(history));
-}
+    // ── Get the cart items that were actually ordered ──
+    const { items: orderedCart, source } = getCheckoutCart();
+    const delivery = 20 + (currentMethod === 'cod' ? 10 : 0);
 
-// ── Save full cart snapshot for buynow.html confirmation page ──
-const cartSnapshot = JSON.parse(localStorage.getItem('cart') || '[]');
-localStorage.setItem('order', JSON.stringify(cartSnapshot));
+    // ── Save order to history for profile page ──
+    if (orderedCart.length > 0) {
+      const history = JSON.parse(localStorage.getItem('orderHistory') || '[]');
+      const subtotalAmt = orderedCart.reduce((s, item) => s + item.price * item.qty, 0);
+      history.unshift({
+        img:   orderedCart[0].img,
+        title: orderedCart.length > 1 ? `${orderedCart[0].title} +${orderedCart.length - 1} more` : orderedCart[0].title,
+        qty:   orderedCart.reduce((s, item) => s + item.qty, 0),
+        total: (subtotalAmt + delivery).toFixed(2),
+        date:  new Date().toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'})
+      });
+      localStorage.setItem('orderHistory', JSON.stringify(history));
+      if (_uk) localStorage.setItem(`hv_orderHistory_${_uk}`, JSON.stringify(history));
+    }
 
-localStorage.removeItem(window._checkoutSource || 'cart');
+    // ── Save snapshot for buynow.html confirmation page ──
+    localStorage.setItem('order', JSON.stringify(orderedCart));
+
+    // ── Clean up ONLY the source that was checked out ──
+    if (source === 'buyNow') {
+      localStorage.removeItem('hv_buyNow');
+      localStorage.removeItem('hv_checkoutSource');
+      // cart remains UNTOUCHED
+    } else {
+      localStorage.removeItem('cart');
+      localStorage.removeItem('hv_checkoutSource');
+    }
+
     document.getElementById('successOverlay').classList.add('show');
   }, 2200);
 }
@@ -1121,7 +1136,21 @@ function showToast(msg) {
 }
 
 //window.onload = loadSummary;
+function goBack() {
+  const source = localStorage.getItem('hv_checkoutSource');
+  if (source === 'buyNow') {
+    history.back();
+  } else {
+    window.location.href = 'cart.html';
+  }
+}
+
 window.onload = function() {
+  // Set back button label based on source
+  const source = localStorage.getItem('hv_checkoutSource');
+  if (source === 'buyNow') {
+    document.getElementById('backBtnLabel').textContent = '← Back';
+  }
   loadSummary();
   prefillFromProfile();
 };
