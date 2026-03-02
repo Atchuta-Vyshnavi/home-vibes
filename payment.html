@@ -1100,6 +1100,10 @@ if (cart.length > 0) {
   localStorage.setItem('orderHistory', JSON.stringify(history));
 }
 
+// ── Save full cart snapshot for buynow.html confirmation page ──
+const cartSnapshot = JSON.parse(localStorage.getItem('cart') || '[]');
+localStorage.setItem('order', JSON.stringify(cartSnapshot));
+
 localStorage.removeItem(window._checkoutSource || 'cart');
     document.getElementById('successOverlay').classList.add('show');
   }, 2200);
