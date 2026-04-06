@@ -2,9 +2,6 @@ let currentMethod = 'card';
 let subtotal = 0;
 let total = 0;
 
-// ── CHECKOUT SOURCE ──
-// Determines whether payment is for a direct "Proceed" from playe.html (buyNow)
-// or from the cart. Using hv_checkoutSource survives page navigation (unlike window vars).
 function getCheckoutCart() {
   const source = localStorage.getItem('hv_checkoutSource');
   if (source === 'buyNow') {
@@ -138,6 +135,42 @@ function validate() {
   return true;
 }
 
+// ── SAVE ORDER TO DATABASE ──
+async function saveOrderToDB(orderedCart, delivery) {
+  try {
+    const items = orderedCart.map(item => ({
+      dishId: item.dishId || null,
+      title:  item.title,
+      qty:    item.qty,
+      price:  item.price
+    }));
+
+    const res = await fetch('http://localhost:3000/api/order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({
+        paymentMethod: currentMethod,
+        subtotal:      subtotal,
+        delivery:      20,
+        codFee:        currentMethod === 'cod' ? 10 : 0,
+        total:         total,
+        items:         items
+      })
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      console.log('✅ Order saved to DB, orderId:', data.orderId);
+    } else {
+      console.warn('⚠️ Order not saved to DB:', data.message);
+    }
+  } catch (err) {
+    // DB save failed silently — UI still works normally
+    console.warn('⚠️ Could not save order to DB:', err.message);
+  }
+}
+
 // ── PROCESS PAYMENT ──
 function processPayment() {
   if (!validate()) return;
@@ -150,7 +183,7 @@ function processPayment() {
   spinner.style.display = 'block';
   btnText.textContent = 'Processing…';
 
-  setTimeout(() => {
+  setTimeout(async () => {
     spinner.style.display = 'none';
     btn.disabled = false;
     btnText.textContent = `Pay ₹${total.toFixed(2)}`;
@@ -170,6 +203,9 @@ function processPayment() {
     // ── Get the cart items that were actually ordered ──
     const { items: orderedCart, source } = getCheckoutCart();
     const delivery = 20 + (currentMethod === 'cod' ? 10 : 0);
+
+    // ── Save order to database ──
+    await saveOrderToDB(orderedCart, delivery);
 
     // ── Save order to history for profile page ──
     if (orderedCart.length > 0) {
@@ -214,7 +250,6 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-//window.onload = loadSummary;
 function goBack() {
   const source = localStorage.getItem('hv_checkoutSource');
   if (source === 'buyNow') {
@@ -297,7 +332,6 @@ function matchState(city) {
 }
 
 function showPrefillBanner(addr) {
-  // Insert banner above the delivery address form
   const stepCard = document.querySelector('.section-card');
   const banner = document.createElement('div');
   banner.id = 'prefillBanner';
@@ -333,13 +367,11 @@ function showPrefillBanner(addr) {
       ✏️ Edit
     </button>
   `;
-  // Insert inside the first section-card after step-header
   const stepHeader = stepCard.querySelector('.step-header');
   stepHeader.insertAdjacentElement('afterend', banner);
 }
 
 function clearPrefill() {
-  // Clear all address fields for manual entry
   ['fname','lname','phone','email','address','city','pin'].forEach(id => {
     document.getElementById(id).value = '';
   });
@@ -351,7 +383,6 @@ function clearPrefill() {
     banner.style.transition = 'all 0.3s ease';
     setTimeout(() => banner.remove(), 300);
   }
-  // Focus first field
   document.getElementById('fname').focus();
   showToast('✏️ Fields cleared — enter your details');
 }

@@ -12,20 +12,43 @@ function selectChip(btn, id) {
 }
 
 // ── SEND ──
-function sendMsg() {
+async function sendMsg() {
   const name  = document.getElementById('cName').value.trim();
   const email = document.getElementById('cEmail').value.trim();
   const msg   = document.getElementById('cMsg').value.trim();
   if (!name || !email) { showToast('Please fill in your name and email.'); return; }
+
   const topic  = document.querySelector('#topicChips .chip.selected')?.textContent || 'General';
   const rating = document.querySelector('#ratingChips .chip.selected')?.textContent || null;
   const time   = new Date().toLocaleString('en-IN', {
     day:'2-digit', month:'short', year:'numeric',
     hour:'2-digit', minute:'2-digit', hour12:true
   });
+
+  // ── Save to localStorage (always works, even if DB fails) ──
   const messages = JSON.parse(localStorage.getItem('hv_messages') || '[]');
   messages.unshift({ name, email, msg, topic, rating, time });
   localStorage.setItem('hv_messages', JSON.stringify(messages));
+
+  // ── Also save to database ──
+  try {
+    const res = await fetch('http://localhost:3000/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ name, email, topic, message: msg, rating: rating || '' })
+    });
+    const data = await res.json();
+    if (data.success) {
+      console.log('✅ Contact message saved to DB');
+    } else {
+      console.warn('⚠️ DB save failed:', data.message);
+    }
+  } catch (err) {
+    // DB save failed silently — form still works normally
+    console.warn('⚠️ Could not save to DB:', err.message);
+  }
+
   document.getElementById('formArea').style.display = 'none';
   document.getElementById('successArea').style.display = 'block';
 }
