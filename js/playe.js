@@ -136,16 +136,33 @@ const dishInfo = {
 };
 
 const params = new URLSearchParams(window.location.search);
-let src   = params.get("src");
 let title = params.get("title");
 let dish  = null;
 let currentQtys = [];
 
-document.getElementById("videoPlayer").src = src || "";
+// YouTube link map — dish title → YouTube URL
+const youtubeLinks = {
+  "Chicken Biryani":        "https://www.youtube.com/watch?v=PmqdA05OXuI",
+  "Chocolate Milkshake":    "https://www.youtube.com/watch?v=v-dBAqmGK7E",
+  "Chicken Manchuriya":     "https://www.youtube.com/watch?v=lBHA-_NNM8Q",
+  "Egg Fried Rice":         "https://www.youtube.com/watch?v=kJYq1tlvjZU",
+  "Fried Veg Momos":        "https://www.youtube.com/watch?v=_t4zDPVMimk",
+  "Paneer Butter Masala":   "https://www.youtube.com/watch?v=U1LVDFwi8qI",
+  "Paneer Tikka":           "https://www.youtube.com/watch?v=BwIJHI4KdIE",
+  "Cheese Pizza":           "https://www.youtube.com/watch?v=PowGsG3aAF0",
+  "Street Maggie":          "https://www.youtube.com/watch?v=DTlCC4-XcoU",
+  "Veg Noodles":            "https://www.youtube.com/watch?v=4HUMvO-7HP8",
+  "Tandoori Roti":          "https://www.youtube.com/watch?v=5-YhV1gmoo8"
+};
 
-if (title && dishInfo[title]) {
-  dish = dishInfo[title];
-  loadDish();
+const ytLink = title ? youtubeLinks[title] : null;
+
+// Always hide the local video player — we use YouTube thumbnail card instead
+document.getElementById("videoPlayer").style.display = "none";
+
+function getYtId(url) {
+  const m = url.match(/[?&]v=([^&]+)/) || url.match(/youtu\.be\/([^?]+)/);
+  return m ? m[1] : '';
 }
 
 function loadDish() {
@@ -153,6 +170,31 @@ function loadDish() {
   document.getElementById("videoDesc").textContent = dish.desc;
   currentQtys = dish.ingredients.map(i => i.qty);
   renderIngredients();
+
+  // Always show YouTube thumbnail card — clicking opens YouTube
+  const card = document.querySelector(".video-card");
+  if (ytLink) {
+    const ytId = getYtId(ytLink);
+    card.innerHTML = `
+      <div class="yt-overlay" onclick="window.open('${ytLink}','_blank')">
+        <img src="https://img.youtube.com/vi/${ytId}/maxresdefault.jpg"
+             onerror="this.src='https://img.youtube.com/vi/${ytId}/hqdefault.jpg'"
+             alt="${title}" class="yt-thumb" />
+        <div class="yt-play-btn">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+        </div>
+        <div class="yt-label">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#FF0000">
+            <path d="M23.5 6.2s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C16.8 2 12 2 12 2s-4.8 0-7.3.1c-.6.1-1.9.1-3 1.3C.8 4.2.5 6.2.5 6.2S.2 8.5.2 10.8v2.1c0 2.3.3 4.6.3 4.6s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C7.2 21.7 12 21.8 12 21.8s4.8 0 7.3-.2c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.3.3-4.6v-2.1c0-2.3-.3-4.6-.3-4.6zM9.7 15.5V8.4l8.1 3.6-8.1 3.5z"/>
+          </svg>
+          Watch on YouTube
+        </div>
+      </div>`;
+  } else {
+    card.innerHTML = `<div style="padding:40px;text-align:center;color:#999">No video available</div>`;
+  }
 }
 function updateCartBadge() {
   const cart = JSON.parse(localStorage.getItem('cart') || '[]');
@@ -314,3 +356,9 @@ function showToast(msg) {
 updateCartBadge();
 function goHome() { window.location.href = 'home.html'; }
 function goCart() { window.location.href = 'cart.html'; }
+
+// Load dish — runs after all functions are defined
+if (title && dishInfo[title]) {
+  dish = dishInfo[title];
+  loadDish();
+}
