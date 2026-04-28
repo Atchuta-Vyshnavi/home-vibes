@@ -1,10 +1,10 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --coral: #E8614A;
-  --amber: #F5A623;
+  --coral: #ef7427eb;
+  --amber: #ee5e20;
   --cream: #FDF8F3;
-  --charcoal: #1C1C1E;
+  --charcoal: #8B3A1A;
   --stone: #6B6B6B;
   --soft: #F0EBE3;
   --white: #FFFFFF;
@@ -77,14 +77,14 @@ html, body {
 
 /* ── SECURE BADGE ── */
 .secure-bar {
-  background: linear-gradient(135deg, #1C1C1E, #2D2D30);
+  background: linear-gradient(135deg, #E8956D, #F2A97E);
   padding: 10px 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   font-size: 12.5px;
-  color: rgba(255,255,255,0.6);
+  color: white;
   font-weight: 500;
   letter-spacing: 0.3px;
 }
@@ -335,7 +335,7 @@ html, body {
   top: 92px;
 }
 .summary-top {
-  background: linear-gradient(135deg, #1C1C1E, #2D2D30);
+  background: linear-gradient(135deg, #E8956D, #F2A97E);
   padding: 20px 22px;
   position: relative;
   overflow: hidden;
@@ -345,7 +345,7 @@ html, body {
   position: absolute;
   top: -30px; right: -30px;
   width: 120px; height: 120px;
-  background: radial-gradient(circle, rgba(232,97,74,0.3), transparent 70%);
+  background: radial-gradient(circle, #ee5e2076, transparent 70%);
 }
 .summary-top h3 {
   font-family: 'Playfair Display', serif;
@@ -554,7 +554,7 @@ html, body {
   position: fixed;
   bottom: 30px; left: 50%;
   transform: translateX(-50%) translateY(10px);
-  background: var(--charcoal);
+  background: #E8956D;
   color: white;
   padding: 12px 22px;
   border-radius: 50px;

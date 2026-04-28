@@ -1,16 +1,16 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --coral: #E8614A;
-  --amber: #F5A623;
+  --coral: #ef7427eb;
+  --amber: #ee5e20;
   --cream: #FDF8F3;
-  --charcoal: #1C1C1E;
+  --charcoal: #8B3A1A;
   --stone: #6B6B6B;
   --soft: #F0EBE3;
   --white: #FFFFFF;
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.07);
-  --shadow-md: 0 8px 24px rgba(0,0,0,0.11);
-  --shadow-lg: 0 20px 48px rgba(0,0,0,0.15);
+  --shadow-sm: 0 2px 8px rgba(139, 12, 12, 0.16);
+  --shadow-md: 0 8px 24px rgba(139, 12, 12, 0.16);
+  --shadow-lg: 0 20px 48px rgba(139, 12, 12, 0.16);
   --radius: 16px;
 }
 
@@ -52,25 +52,25 @@ html, body {
 
 /* ── HERO ── */
 .hero {
-  background: linear-gradient(135deg, #1C1C1E 0%, #2D2D30 100%);
+  background: linear-gradient(135deg, #E8956D 0%, #F2A97E 100%);
   padding: 48px 40px; text-align: center;
   position: relative; overflow: hidden;
 }
 .hero::before {
   content: ''; position: absolute; top: -60px; right: -60px;
   width: 300px; height: 300px;
-  background: radial-gradient(circle, rgba(232,97,74,0.28) 0%, transparent 70%);
+  background: radial-gradient(circle, #ee5e2076 0%, transparent 70%);
 }
 .hero::after {
   content: ''; position: absolute; bottom: -80px; left: -40px;
   width: 280px; height: 280px;
-  background: radial-gradient(circle, rgba(245,166,35,0.22) 0%, transparent 70%);
+  background: radial-gradient(circle, #ee5e2076 0%, transparent 70%);
 }
 .hero-tag {
-  display: inline-block; background: rgba(232,97,74,0.18); color: #F5856A;
+  display: inline-block; background: rgba(200,60,30,0.33); color: white;
   font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
   padding: 5px 14px; border-radius: 50px; margin-bottom: 16px;
-  border: 1px solid rgba(232,97,74,0.28); position: relative; z-index: 1;
+  border: 1px solid rgba(200,60,30,0.33); position: relative; z-index: 1;
 }
 .hero h2 {
   font-family: 'Playfair Display', serif;
@@ -80,7 +80,7 @@ html, body {
 }
 .hero h2 span { color: var(--amber); }
 .hero p {
-  color: rgba(255,255,255,0.5); font-size: 15px;
+  color: white; font-size: 15px;
   font-weight: 300; max-width: 480px; margin: 0 auto;
   position: relative; z-index: 1;
 }
@@ -220,7 +220,7 @@ html, body {
 .success p { color: var(--stone); font-size: 14px; margin-bottom: 20px; }
 .success-btn {
   display: inline-flex; align-items: center; gap: 8px;
-  background: var(--charcoal); color: white;
+  background: #E8956D; color: white;
   text-decoration: none; padding: 11px 22px;
   border-radius: 10px; font-size: 14px; font-weight: 600;
   transition: background 0.2s;
@@ -340,7 +340,7 @@ html, body {
 .toast {
   position: fixed; bottom: 30px; left: 50%;
   transform: translateX(-50%) translateY(10px);
-  background: var(--charcoal); color: white;
+  background: #E8956D; color: white;
   padding: 12px 22px; border-radius: 50px;
   font-size: 14px; font-weight: 500; opacity: 0;
   transition: opacity 0.3s, transform 0.3s;

@@ -1,10 +1,10 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --coral: #E8614A;
-  --amber: #F5A623;
+  --coral: #ef7427eb;
+  --amber: #ee5e20;
   --cream: #FDF8F3;
-  --charcoal: #1C1C1E;
+  --charcoal: #8B3A1A;
   --stone: #6B6B6B;
   --soft: #F0EBE3;
   --white: #FFFFFF;
@@ -296,7 +296,7 @@ html, body {
   position: fixed;
   bottom: 30px; left: 50%;
   transform: translateX(-50%) translateY(10px);
-  background: var(--charcoal);
+  background: #E8956D;
   color: white;
   padding: 12px 22px;
   border-radius: 50px;

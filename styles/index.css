@@ -1,14 +1,14 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --coral: #E8614A;
-      --amber: #F5A623;
+      --coral: #ef7427eb;
+      --amber: #ee5e20;
       --cream: #FDF8F3;
-      --charcoal: #1C1C1E;
+      --charcoal: #ef1212;
       --stone: #6B6B6B;
       --soft: #F0EBE3;
       --white: #FFFFFF;
-      --shadow-lg: 0 20px 48px rgba(0,0,0,0.16);
+      --shadow-lg: 0 20px 48px rgba(139, 12, 12, 0.16);
       --radius: 16px;
     }
 
@@ -26,7 +26,7 @@
 
     /* ── LEFT PANEL ── */
     .left-panel {
-      background: linear-gradient(145deg, #1C1C1E 0%, #2D2D30 100%);
+      background: linear-gradient(145deg, #E8956D 0%, #F2A97E 100%);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -40,7 +40,7 @@
       position: absolute;
       top: -80px; right: -80px;
       width: 360px; height: 360px;
-      background: radial-gradient(circle, rgba(232,97,74,0.28) 0%, transparent 70%);
+      background: radial-gradient(circle, #ee5e2076 0%, transparent 70%);
       pointer-events: none;
     }
     .left-panel::after {
@@ -48,7 +48,7 @@
       position: absolute;
       bottom: -80px; left: -40px;
       width: 300px; height: 300px;
-      background: radial-gradient(circle, rgba(245,166,35,0.2) 0%, transparent 70%);
+      background: radial-gradient(circle, #ee5e2076 0%, transparent 70%);
       pointer-events: none;
     }
 
@@ -77,8 +77,8 @@
     .left-copy { position: relative; z-index: 1; }
     .left-tag {
       display: inline-block;
-      background: rgba(232,97,74,0.2);
-      color: #F5856A;
+      background: rgba(200,60,30,0.33);
+      color: #FFFFFF;
       font-size: 11px;
       font-weight: 600;
       letter-spacing: 1.5px;
@@ -86,7 +86,7 @@
       padding: 5px 14px;
       border-radius: 50px;
       margin-bottom: 20px;
-      border: 1px solid rgba(232,97,74,0.3);
+      border: 1px solid rgba(200,60,30,0.45);
     }
     .left-copy h2 {
       font-family: 'Playfair Display', serif;
@@ -98,7 +98,7 @@
     }
     .left-copy h2 span { color: var(--amber); }
     .left-copy p {
-      color: rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.85);
       font-size: 15px;
       font-weight: 300;
       line-height: 1.7;
@@ -117,7 +117,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      color: rgba(255,255,255,0.7);
+      color: rgba(255,255,255,0.92);
       font-size: 14px;
     }
     .feature-dot {
@@ -242,7 +242,7 @@
       bottom: 30px;
       left: 50%;
       transform: translateX(-50%) translateY(10px);
-      background: var(--charcoal);
+      background: #E8956D;
       color: white;
       padding: 12px 22px;
       border-radius: 50px;
@@ -261,6 +261,6 @@
     @media (max-width: 820px) {
       body { grid-template-columns: 1fr; }
       .left-panel { display: none; }
-      .right-panel { background: linear-gradient(135deg, #1C1C1E, #2D2D30); min-height: 100vh; }
+      .right-panel { background: linear-gradient(135deg, #E8956D, #F2A97E); min-height: 100vh; }
       .card { max-width: 420px; }
     }

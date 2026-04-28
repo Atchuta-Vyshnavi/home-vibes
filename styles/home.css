@@ -1,16 +1,16 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --coral: #E8614A;
-  --amber: #F5A623;
+  --coral: #ef7427eb;
+  --amber: #ee5e20;
   --cream: #FDF8F3;
-  --charcoal: #1C1C1E;
+  --charcoal: #8B3A1A;
   --stone: #6B6B6B;
   --soft: #F0EBE3;
   --white: #FFFFFF;
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
-  --shadow-md: 0 8px 24px rgba(0,0,0,0.12);
-  --shadow-lg: 0 20px 48px rgba(0,0,0,0.16);
+  --shadow-sm: 0 2px 8px rgba(139, 12, 12, 0.16);
+  --shadow-md: 0 8px 24px rgba(139, 12, 12, 0.16);
+  --shadow-lg: 0 20px 48px rgba(139, 12, 12, 0.16);
   --radius: 16px;
 }
 
@@ -141,7 +141,7 @@ html, body {
 
 /* ── HERO SECTION ── */
 .hero {
-  background: linear-gradient(135deg, #1C1C1E 0%, #2D2D30 100%);
+  background: linear-gradient(135deg, #E8956D 0%, #F2A97E 100%);
   padding: 52px 40px;
   text-align: center;
   position: relative;
@@ -152,7 +152,7 @@ html, body {
   position: absolute;
   top: -60px; right: -60px;
   width: 300px; height: 300px;
-  background: radial-gradient(circle, rgba(232,97,74,0.3) 0%, transparent 70%);
+  background: radial-gradient(circle, #ee5e2076 0%, transparent 70%);
   pointer-events: none;
 }
 .hero::after {
@@ -160,13 +160,13 @@ html, body {
   position: absolute;
   bottom: -80px; left: -40px;
   width: 280px; height: 280px;
-  background: radial-gradient(circle, rgba(245,166,35,0.25) 0%, transparent 70%);
+  background: radial-gradient(circle, #ee5e2076 0%, transparent 70%);
   pointer-events: none;
 }
 .hero-tag {
   display: inline-block;
-  background: rgba(232,97,74,0.2);
-  color: #F5856A;
+  background: rgba(200,60,30,0.33);
+  color: #FFFFFF;
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 1.5px;
@@ -174,7 +174,7 @@ html, body {
   padding: 5px 14px;
   border-radius: 50px;
   margin-bottom: 18px;
-  border: 1px solid rgba(232,97,74,0.3);
+  border: 1px solid rgba(200, 61, 30, 0.635);
 }
 .hero h2 {
   font-family: 'Playfair Display', serif;
@@ -186,7 +186,7 @@ html, body {
 }
 .hero h2 span { color: var(--amber); }
 .hero p {
-  color: rgba(255,255,255,0.55);
+  color: rgba(255,255,255,0.9);
   font-size: 15px;
   font-weight: 300;
   max-width: 480px;
@@ -295,7 +295,7 @@ html, body {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: var(--charcoal);
+  background: #E8956D;
   color: white;
   border: none;
   padding: 8px 16px;
