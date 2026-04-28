@@ -35,16 +35,45 @@ async function registerUser(e) {
 
 async function loginUser(e) {
   e.preventDefault();
-const res = await fetch('http://localhost:3000/api/login', {
+  const email    = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const password = document.getElementById('loginPassword').value;
+
+  const res = await fetch('http://localhost:3000/api/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      email:    document.getElementById('loginEmail').value.trim().toLowerCase(),
-      password: document.getElementById('loginPassword').value
-    })
+    body: JSON.stringify({ email, password })
   });
   const data = await res.json();
+
   if (data.success) {
+    // ── Save user data so profile.js can populate the profile automatically ──
+    const user = data.user || {};
+
+    // Normalise field names — backends may return fullName or name
+    const userData = {
+      name:  user.fullName || user.name || '',
+      email: user.email    || email,
+      dob:   user.dob      || ''
+    };
+
+    // Primary key profile.js reads on load
+    localStorage.setItem('user', JSON.stringify(userData));
+
+    // Session flags
+    localStorage.setItem('loggedIn',         'true');
+    localStorage.setItem('currentUserEmail', userData.email);
+
+    // Restore any previously saved per-user profile/addresses/prefs
+    const k = userData.email.replace(/[^a-z0-9]/g, '_');
+    const savedProfile   = localStorage.getItem(`hv_profile_${k}`);
+    const savedAddresses = localStorage.getItem(`hv_addresses_${k}`);
+    const savedPrefs     = localStorage.getItem(`hv_prefs_${k}`);
+
+    if (savedProfile)   localStorage.setItem('hv_profile',   savedProfile);
+    else                localStorage.removeItem('hv_profile'); // let profile.js build fresh from 'user'
+    if (savedAddresses) localStorage.setItem('hv_addresses', savedAddresses);
+    if (savedPrefs)     localStorage.setItem('hv_prefs',     savedPrefs);
+
     showToast('✓ Logged in! Redirecting…');
     setTimeout(() => window.location.href = 'home.html', 1000);
   } else {
